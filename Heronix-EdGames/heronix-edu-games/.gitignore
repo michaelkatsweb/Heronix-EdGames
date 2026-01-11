@@ -1,0 +1,126 @@
+# Heronix Educational Games - Git Ignore
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+
+# JavaFX
+.javafx-cache/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# IDE - NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# Database Files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+data/
+backups/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Configuration (may contain sensitive data)
+config.properties
+*.properties
+!config.properties.template
+
+# Application Data
+.heronix/
+pending_sync.json
+auth_token.enc
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Build Artifacts
+*.apk
+*.aab
+*.exe
+*.dmg
+*.pkg
+
+# Security
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
+auth_token*
+*password*
+*secret*
+
+# Testing
+coverage/
+.pytest_cache/
+.coverage
+
+# Documentation Build
+docs/_build/
+docs/.doctrees/
+
+# Sensitive Information
+student_data/
+teacher_info/
+school_records/
+
+# Package Files
+node_modules/
+package-lock.json

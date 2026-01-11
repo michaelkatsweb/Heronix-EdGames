@@ -1,0 +1,35 @@
+# Production Profile Configuration
+
+spring:
+  h2:
+    console:
+      enabled: false  # Disable H2 console in production
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+server:
+  error:
+    include-stacktrace: never
+    include-binding-errors: never
+
+logging:
+  level:
+    com.heronix.edu: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN
+  file:
+    name: ./logs/heronix-server.log
+    max-size: 10MB
+    max-history: 30
+
+jwt:
+  secret: ${JWT_SECRET}  # Must be provided via environment variable
+
+heronix:
+  audit:
+    enabled: true

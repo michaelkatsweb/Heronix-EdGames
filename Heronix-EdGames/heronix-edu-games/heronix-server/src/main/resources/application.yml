@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: heronix-server
+
+  datasource:
+    url: jdbc:h2:file:./data/heronix;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-stacktrace: on_param
+
+jwt:
+  secret: ${JWT_SECRET:heronix-dev-secret-change-in-production-must-be-at-least-256-bits-long}
+  expiration: 7776000000  # 90 days in milliseconds
+
+heronix:
+  sync:
+    batch-size: 100
+    max-retries: 3
+  audit:
+    enabled: true
+  games:
+    directory: ./games
+  sis:
+    # Heronix SIS (Student Information System) Integration
+    enabled: true
+    url: http://localhost:9580
+    # Test student ID - always valid for testing (not checked against SIS)
+    test-student-id: testgm1
+
+# SpringDoc OpenAPI (Swagger) Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+
+# Logging Configuration
+logging:
+  level:
+    com.heronix.edu: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

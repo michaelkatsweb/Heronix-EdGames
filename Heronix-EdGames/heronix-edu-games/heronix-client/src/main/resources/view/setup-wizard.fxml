@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.heronix.edu.client.ui.controller.SetupWizardController"
+      spacing="20"
+      alignment="CENTER"
+      style="-fx-background-color: #f5f5f5;">
+
+    <padding>
+        <Insets top="40" right="60" bottom="40" left="60"/>
+    </padding>
+
+    <!-- Header -->
+    <VBox alignment="CENTER" spacing="10">
+        <Label text="Welcome to Heronix Educational Games"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1976D2;"/>
+        <Label text="Let's set up your device"
+               style="-fx-font-size: 16px; -fx-text-fill: #666;"/>
+    </VBox>
+
+    <!-- Spacer -->
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Form -->
+    <VBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-padding: 30;">
+
+        <!-- Student Name Field (Simplified) -->
+        <VBox spacing="5">
+            <Label text="Your Name:" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <TextField fx:id="deviceNameField"
+                      promptText="Enter your first name, last name, or nickname"
+                      style="-fx-font-size: 14px; -fx-pref-width: 400px;"/>
+            <Label text="This helps your teacher identify your device"
+                   style="-fx-font-size: 12px; -fx-text-fill: #888;"/>
+        </VBox>
+
+        <!-- Hardware ID Display (Read-only, for verification) -->
+        <VBox spacing="5">
+            <Label text="Device Identifier:" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Label fx:id="hardwareIdLabel"
+                   text="Generating device ID..."
+                   style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-background-color: #f0f0f0; -fx-padding: 8px; -fx-background-radius: 4px;"/>
+            <Label text="This unique ID is automatically generated from your device's hardware"
+                   wrapText="true"
+                   style="-fx-font-size: 11px; -fx-text-fill: #888;"/>
+        </VBox>
+
+        <!-- Register Button -->
+        <Button fx:id="registerButton"
+                text="Register Device"
+                onAction="#handleRegister"
+                style="-fx-font-size: 16px; -fx-background-color: #1976D2; -fx-text-fill: white; -fx-padding: 12px 40px; -fx-background-radius: 4px; -fx-cursor: hand;"
+                defaultButton="true">
+            <VBox.margin>
+                <Insets top="10"/>
+            </VBox.margin>
+        </Button>
+
+        <!-- Status Label -->
+        <Label fx:id="statusLabel"
+               wrapText="true"
+               style="-fx-font-size: 13px; -fx-text-fill: #1976D2;"/>
+
+        <!-- Progress Indicator -->
+        <ProgressIndicator fx:id="progressIndicator"
+                          visible="false"
+                          prefWidth="40"
+                          prefHeight="40"/>
+    </VBox>
+
+    <!-- Spacer -->
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Footer -->
+    <VBox alignment="CENTER" spacing="5">
+        <Label text="🔒 Secure Hardware-Based Registration"
+               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+        <Label text="No registration codes needed! Your teacher will approve this device and assign your student ID."
+               wrapText="true"
+               style="-fx-font-size: 12px; -fx-text-fill: #666; -fx-text-alignment: center;"/>
+    </VBox>
+</VBox>

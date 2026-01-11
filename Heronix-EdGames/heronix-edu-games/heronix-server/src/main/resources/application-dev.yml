@@ -1,0 +1,29 @@
+# Development Profile Configuration
+
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true  # Allow remote H2 console access in dev
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  error:
+    include-stacktrace: always
+    include-binding-errors: always
+
+logging:
+  level:
+    com.heronix.edu: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate: DEBUG
+
+jwt:
+  secret: dev-secret-key-for-testing-only-not-for-production-use
