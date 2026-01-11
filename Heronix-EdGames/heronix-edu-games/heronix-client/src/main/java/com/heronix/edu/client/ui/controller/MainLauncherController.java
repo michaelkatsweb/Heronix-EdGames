@@ -1,5 +1,6 @@
 package com.heronix.edu.client.ui.controller;
 
+import com.heronix.edu.client.api.dto.GameInfoDto;
 import com.heronix.edu.client.db.entity.InstalledGame;
 import com.heronix.edu.client.db.entity.LocalDevice;
 import com.heronix.edu.client.db.repository.GameScoreRepository;
@@ -17,8 +18,10 @@ import com.heronix.edu.common.game.GameContext;
 import com.heronix.edu.common.model.Student;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +43,10 @@ public class MainLauncherController {
     @FXML private Label pendingScoresLabel;
     @FXML private Button settingsButton;
     @FXML private Button refreshButton;
+    @FXML private Button refreshStoreButton;
     @FXML private Button syncNowButton;
     @FXML private FlowPane gamesGrid;
+    @FXML private FlowPane storeGamesGrid;
     @FXML private TableView scoresTable;
 
     private DeviceService deviceService;
@@ -71,6 +76,9 @@ public class MainLauncherController {
 
         // Load games
         loadGames();
+
+        // Load available games from store
+        loadStoreGames();
 
         // Update sync status
         updateSyncStatus();
@@ -235,6 +243,131 @@ public class MainLauncherController {
     }
 
     /**
+     * Load available games from store
+     */
+    private void loadStoreGames() {
+        logger.info("Loading available games from store");
+
+        storeGamesGrid.getChildren().clear();
+
+        try {
+            List<GameInfoDto> availableGames = gameManager.getUninstalledGames();
+
+            if (availableGames.isEmpty()) {
+                Label emptyLabel = new Label("All available games are already installed!\nCheck back later for new games.");
+                emptyLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #999; -fx-padding: 40; -fx-text-alignment: center;");
+                storeGamesGrid.getChildren().add(emptyLabel);
+                return;
+            }
+
+            // Create cards for each available game
+            for (GameInfoDto game : availableGames) {
+                VBox gameCard = createStoreGameCard(game);
+                storeGamesGrid.getChildren().add(gameCard);
+            }
+
+            logger.info("Loaded {} available games from store", availableGames.size());
+
+        } catch (Exception e) {
+            logger.error("Error loading store games", e);
+            Label errorLabel = new Label("Failed to load games from store.\nCheck your internet connection and try again.");
+            errorLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #f44336; -fx-padding: 40; -fx-text-alignment: center;");
+            storeGamesGrid.getChildren().add(errorLabel);
+        }
+    }
+
+    /**
+     * Create a card for a store game
+     */
+    private VBox createStoreGameCard(GameInfoDto game) {
+        VBox card = new VBox(10);
+        card.setAlignment(Pos.TOP_CENTER);
+        card.setStyle("-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; " +
+                     "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);");
+        card.setPrefWidth(250);
+        card.setMaxWidth(250);
+
+        // Game name
+        Label nameLabel = new Label(game.getName());
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        nameLabel.setWrapText(true);
+        nameLabel.setMaxWidth(220);
+
+        // Subject
+        Label subjectLabel = new Label(game.getSubject());
+        subjectLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #2196F3; -fx-font-weight: bold;");
+
+        // Description
+        Label descLabel = new Label(game.getDescription());
+        descLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
+        descLabel.setWrapText(true);
+        descLabel.setMaxWidth(220);
+        descLabel.setMaxHeight(60);
+
+        // Grade range
+        Label gradeLabel = new Label(game.getGradeRange());
+        gradeLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #999;");
+
+        // File size
+        Label sizeLabel = new Label("Size: " + game.getFormattedFileSize());
+        sizeLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #999;");
+
+        // Download button
+        Button downloadBtn = new Button("⬇ Download");
+        downloadBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; " +
+                           "-fx-padding: 8px 20px; -fx-background-radius: 4px; -fx-cursor: hand;");
+        downloadBtn.setMaxWidth(Double.MAX_VALUE);
+        downloadBtn.setOnAction(e -> handleDownloadGame(game, downloadBtn));
+
+        card.getChildren().addAll(nameLabel, subjectLabel, descLabel, gradeLabel, sizeLabel, downloadBtn);
+
+        return card;
+    }
+
+    /**
+     * Handle download game button
+     */
+    private void handleDownloadGame(GameInfoDto game, Button downloadBtn) {
+        logger.info("Download requested for game: {}", game.getName());
+
+        if (!networkMonitor.isOnline()) {
+            showError("Cannot download: No network connection");
+            return;
+        }
+
+        // Disable button and show progress
+        downloadBtn.setDisable(true);
+        downloadBtn.setText("Downloading...");
+
+        // Download in background
+        new Thread(() -> {
+            try {
+                gameManager.downloadAndInstallGame(game.getGameId(), (message, percentage) -> {
+                    Platform.runLater(() -> {
+                        downloadBtn.setText(percentage + "%");
+                        showInfo(message);
+                    });
+                });
+
+                // Success - refresh both tabs
+                Platform.runLater(() -> {
+                    showInfo("Game installed successfully: " + game.getName());
+                    loadGames();
+                    loadStoreGames();
+                });
+
+            } catch (Exception e) {
+                logger.error("Failed to download game: " + game.getName(), e);
+                Platform.runLater(() -> {
+                    showError("Download failed: " + e.getMessage());
+                    downloadBtn.setDisable(false);
+                    downloadBtn.setText("⬇ Download");
+                });
+            }
+        }).start();
+    }
+
+    /**
      * Handle refresh button
      */
     @FXML
@@ -243,6 +376,22 @@ public class MainLauncherController {
         loadGames();
         updateSyncStatus();
         showInfo("Games refreshed");
+    }
+
+    /**
+     * Handle refresh store button
+     */
+    @FXML
+    public void handleRefreshStore() {
+        logger.info("Refreshing game store");
+
+        if (!networkMonitor.isOnline()) {
+            showError("Cannot refresh store: No network connection");
+            return;
+        }
+
+        loadStoreGames();
+        showInfo("Store refreshed");
     }
 
     /**

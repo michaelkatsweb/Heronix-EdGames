@@ -45,12 +45,12 @@ public class HeronixClientApplication extends Application {
 
         // Initialize services
         tokenManager = new TokenManager();
+        HeronixApiClient apiClient = new HeronixApiClient(tokenManager);
         deviceService = new DeviceService(deviceRepository, tokenManager);
-        gameManager = new GameManager(gameRepository);
+        gameManager = new GameManager(gameRepository, apiClient);
         scoreService = new ScoreService(scoreRepository, deviceService);
 
-        // Initialize API client and sync service
-        HeronixApiClient apiClient = new HeronixApiClient(tokenManager);
+        // Initialize network monitor and sync service
         networkMonitor = NetworkMonitor.getInstance();
         syncService = new SyncService(scoreService, deviceService, apiClient, networkMonitor);
 

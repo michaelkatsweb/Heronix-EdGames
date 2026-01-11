@@ -104,6 +104,74 @@ public class HeronixApiClient {
     }
 
     /**
+     * Get list of available games from server
+     */
+    public List<GameInfoDto> getAvailableGames() {
+        logger.info("Fetching available games from server");
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+            .uri(URI.create(baseUrl + "/api/games/list"))
+            .GET()
+            .build();
+
+        return sendRequestList(httpRequest, GameInfoDto.class);
+    }
+
+    /**
+     * Get detailed information about a specific game
+     */
+    public GameInfoDto getGameInfo(String gameId) {
+        logger.info("Fetching game info for: {}", gameId);
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+            .uri(URI.create(baseUrl + "/api/games/" + gameId + "/info"))
+            .GET()
+            .build();
+
+        return sendRequest(httpRequest, GameInfoDto.class);
+    }
+
+    /**
+     * Download a game file
+     */
+    public byte[] downloadGame(String gameId) {
+        logger.info("Downloading game: {}", gameId);
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+            .uri(URI.create(baseUrl + "/api/games/" + gameId + "/download"))
+            .header("Authorization", "Bearer " + tokenManager.getToken())
+            .GET()
+            .build();
+
+        try {
+            HttpResponse<byte[]> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
+
+            logger.debug("HTTP {} {} -> {}", httpRequest.method(), httpRequest.uri(), response.statusCode());
+
+            // Handle authentication errors
+            if (response.statusCode() == 401) {
+                throw new TokenExpiredException("Token expired or invalid");
+            }
+
+            // Handle errors
+            if (response.statusCode() >= 400) {
+                throw new ApiException("Failed to download game: HTTP " + response.statusCode(),
+                                     response.statusCode());
+            }
+
+            logger.info("Game downloaded successfully: {} bytes", response.body().length);
+            return response.body();
+
+        } catch (IOException e) {
+            logger.error("Network error downloading game", e);
+            throw new NetworkException("Failed to download game: " + e.getMessage(), e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new NetworkException("Download interrupted", e);
+        }
+    }
+
+    /**
      * Ping server to test connectivity
      */
     public void ping() {
@@ -155,6 +223,44 @@ public class HeronixApiClient {
 
             // Parse successful response
             return JsonUtil.fromJson(response.body(), responseType);
+
+        } catch (IOException e) {
+            logger.error("Network error communicating with server", e);
+            throw new NetworkException("Failed to connect to server: " + e.getMessage(), e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new NetworkException("Request interrupted", e);
+        }
+    }
+
+    /**
+     * Send HTTP request and parse list response
+     */
+    private <T> List<T> sendRequestList(HttpRequest request, Class<T> elementType) {
+        try {
+            HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+
+            logger.debug("HTTP {} {} -> {}", request.method(), request.uri(), response.statusCode());
+
+            // Handle authentication errors
+            if (response.statusCode() == 401) {
+                throw new TokenExpiredException("Token expired or invalid");
+            }
+
+            // Handle client errors
+            if (response.statusCode() >= 400 && response.statusCode() < 500) {
+                throw new ApiException("HTTP " + response.statusCode() + ": " + response.body(),
+                                     response.statusCode());
+            }
+
+            // Handle server errors
+            if (response.statusCode() >= 500) {
+                throw new ApiException("Server error: HTTP " + response.statusCode(),
+                                     response.statusCode());
+            }
+
+            // Parse successful response as list
+            return JsonUtil.fromJsonList(response.body(), elementType);
 
         } catch (IOException e) {
             logger.error("Network error communicating with server", e);

@@ -1,5 +1,7 @@
 package com.heronix.edu.client.service;
 
+import com.heronix.edu.client.api.HeronixApiClient;
+import com.heronix.edu.client.api.dto.GameInfoDto;
 import com.heronix.edu.client.config.AppConfig;
 import com.heronix.edu.client.db.entity.InstalledGame;
 import com.heronix.edu.client.db.repository.InstalledGameRepository;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service for managing installed games
@@ -26,10 +29,12 @@ public class GameManager {
     private static final Logger logger = LoggerFactory.getLogger(GameManager.class);
 
     private final InstalledGameRepository gameRepository;
+    private final HeronixApiClient apiClient;
     private final Path gamesDirectory;
 
-    public GameManager(InstalledGameRepository gameRepository) {
+    public GameManager(InstalledGameRepository gameRepository, HeronixApiClient apiClient) {
         this.gameRepository = gameRepository;
+        this.apiClient = apiClient;
         this.gamesDirectory = Paths.get(AppConfig.getGamesDirectory());
 
         // Create games directory if it doesn't exist
@@ -163,6 +168,103 @@ public class GameManager {
     }
 
     /**
+     * Get list of available games from server
+     */
+    public List<GameInfoDto> getAvailableGames() {
+        logger.info("Fetching available games from server");
+        return apiClient.getAvailableGames();
+    }
+
+    /**
+     * Get list of games that are available but not installed
+     */
+    public List<GameInfoDto> getUninstalledGames() {
+        List<GameInfoDto> available = getAvailableGames();
+        List<String> installedIds = getInstalledGames().stream()
+            .map(InstalledGame::getGameId)
+            .collect(Collectors.toList());
+
+        return available.stream()
+            .filter(game -> !installedIds.contains(game.getGameId()))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Check if a game is installed
+     */
+    public boolean isGameInstalled(String gameId) {
+        return gameRepository.findById(gameId).isPresent();
+    }
+
+    /**
+     * Download and install a game from the server
+     */
+    public void downloadAndInstallGame(String gameId, ProgressCallback callback) throws Exception {
+        logger.info("Downloading game from server: {}", gameId);
+
+        // Get game info
+        if (callback != null) callback.onProgress("Fetching game information...", 0);
+        GameInfoDto gameInfo = apiClient.getGameInfo(gameId);
+
+        // Download game
+        if (callback != null) callback.onProgress("Downloading game...", 25);
+        byte[] gameData = apiClient.downloadGame(gameId);
+
+        // Save to temporary file
+        if (callback != null) callback.onProgress("Installing game...", 50);
+        Path tempFile = Files.createTempFile("heronix-game-", ".jar");
+        try {
+            Files.write(tempFile, gameData);
+
+            // Calculate checksum
+            if (callback != null) callback.onProgress("Verifying integrity...", 75);
+            String checksum = calculateChecksum(tempFile);
+
+            // Verify checksum if provided
+            if (gameInfo.getChecksum() != null && !gameInfo.getChecksum().equals(checksum)) {
+                throw new IllegalStateException("Checksum mismatch - downloaded file may be corrupted");
+            }
+
+            // Move to games directory
+            Path destPath = gamesDirectory.resolve(gameId + ".jar");
+            Files.move(tempFile, destPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+            // Load game to extract metadata
+            if (callback != null) callback.onProgress("Extracting metadata...", 90);
+            GameClassLoader classLoader = new GameClassLoader(destPath);
+            try {
+                EducationalGame game = classLoader.loadGameInstance();
+
+                // Save to database
+                InstalledGame installedGame = new InstalledGame();
+                installedGame.setGameId(gameId);
+                installedGame.setGameName(gameInfo.getName());
+                installedGame.setDescription(gameInfo.getDescription());
+                installedGame.setSubject(game.getSubject().toString());
+                installedGame.setJarPath(destPath.toString());
+                installedGame.setJarChecksum(checksum);
+                installedGame.setInstalledAt(LocalDateTime.now());
+                installedGame.setFileSizeBytes(gameInfo.getFileSizeBytes());
+
+                gameRepository.save(installedGame);
+
+                if (callback != null) callback.onProgress("Installation complete!", 100);
+                logger.info("Game installed successfully: {}", gameId);
+
+            } finally {
+                classLoader.close();
+            }
+
+        } catch (Exception e) {
+            // Clean up temp file on error
+            if (Files.exists(tempFile)) {
+                Files.delete(tempFile);
+            }
+            throw e;
+        }
+    }
+
+    /**
      * Calculate SHA-256 checksum of a file
      */
     private String calculateChecksum(Path filePath) throws Exception {
@@ -177,5 +279,12 @@ public class GameManager {
      */
     public Path getGamesDirectory() {
         return gamesDirectory;
+    }
+
+    /**
+     * Callback interface for download progress
+     */
+    public interface ProgressCallback {
+        void onProgress(String message, int percentage);
     }
 }
