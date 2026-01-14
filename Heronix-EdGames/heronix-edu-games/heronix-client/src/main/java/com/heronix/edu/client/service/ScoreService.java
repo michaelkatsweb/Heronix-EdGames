@@ -104,4 +104,71 @@ public class ScoreService {
     public int getUnsyncedCount() {
         return scoreRepository.countUnsyncedScores();
     }
+
+    /**
+     * Get recent scores (most recent first)
+     */
+    public List<LocalGameScore> getRecentScores(int limit) {
+        return scoreRepository.findRecentScores(limit);
+    }
+
+    /**
+     * Get all scores
+     */
+    public List<LocalGameScore> getAllScores() {
+        return scoreRepository.findAll();
+    }
+
+    // ========================================================================
+    // DELTA SYNC METHODS
+    // ========================================================================
+
+    /**
+     * Get scores modified after a given timestamp (for delta sync)
+     */
+    public List<LocalGameScore> getScoresModifiedAfter(LocalDateTime since) {
+        return scoreRepository.findModifiedAfter(since);
+    }
+
+    /**
+     * Mark a score as synced with a specific server version
+     */
+    public void markAsSyncedWithVersion(String scoreId, int serverVersion) {
+        scoreRepository.markAsSyncedWithVersion(scoreId, serverVersion);
+    }
+
+    /**
+     * Mark a score as having a conflict
+     */
+    public void markAsConflict(String scoreId) {
+        scoreRepository.markAsConflict(scoreId, 0);
+    }
+
+    /**
+     * Reset sync status for a score (to retry sync)
+     */
+    public void resetSyncStatus(String scoreId) {
+        scoreRepository.updateSyncStatus(scoreId, "PENDING", 0);
+    }
+
+    /**
+     * Get count of scores with conflicts
+     */
+    public int getConflictCount() {
+        return scoreRepository.countConflicts();
+    }
+
+    /**
+     * Get all conflicting scores
+     */
+    public List<LocalGameScore> getConflictingScores() {
+        return scoreRepository.findConflictingScores();
+    }
+
+    /**
+     * Get scores by sync status
+     */
+    public List<LocalGameScore> getScoresBySyncStatus(String status) {
+        return scoreRepository.findBySyncStatus(status);
+    }
 }

@@ -1,0 +1,28 @@
+{
+  "gameId": "math-quest",
+  "name": "Math Quest",
+  "description": "Embark on a math adventure! Solve arithmetic problems with your owl companion. Practice addition, subtraction, multiplication, and division.",
+  "version": "1.0.0",
+  "subject": "Mathematics",
+  "targetGrades": ["3", "4", "5", "6"],
+  "difficulty": ["EASY", "MEDIUM", "HARD", "EXPERT"],
+  "jarFile": "math-quest.jar",
+  "icon": "icon.png",
+  "screenshots": ["screenshot1.png", "screenshot2.png"],
+  "author": "Heronix Education",
+  "bundle": "standard",
+  "features": [
+    "Timed challenges",
+    "Animated owl companion",
+    "Progress tracking",
+    "Multiple difficulty levels"
+  ],
+  "learningObjectives": [
+    "Master basic arithmetic operations",
+    "Improve mental math speed",
+    "Build problem-solving confidence"
+  ],
+  "minPlayTime": 5,
+  "maxPlayTime": 15,
+  "active": true
+}

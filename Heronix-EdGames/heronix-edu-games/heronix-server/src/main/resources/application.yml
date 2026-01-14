@@ -3,19 +3,30 @@ spring:
     name: heronix-server
 
   datasource:
-    url: jdbc:h2:file:./data/heronix;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:./data/heronix2;AUTO_SERVER=TRUE
     driver-class-name: org.h2.Driver
     username: sa
     password:
+    # Connection pool settings for high concurrency
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
 
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false  # Disable for production performance
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
     defer-datasource-initialization: true
 
   sql:
@@ -34,11 +45,34 @@ spring:
       write-dates-as-timestamps: false
     time-zone: UTC
 
+# Server Configuration - Optimized for 500+ WebSocket connections
 server:
   port: 8081
   error:
     include-message: always
     include-stacktrace: on_param
+
+  # Tomcat tuning for high concurrency
+  tomcat:
+    # Maximum number of connections (500+ students + teachers + overhead)
+    max-connections: 1000
+    # Thread pool for request processing
+    threads:
+      max: 200
+      min-spare: 20
+    # Accept count (queue size when all threads are busy)
+    accept-count: 200
+    # Connection timeout
+    connection-timeout: 20000
+    # Keep-alive settings
+    keep-alive-timeout: 60000
+    max-keep-alive-requests: 1000
+
+  # Compression for faster data transfer
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    min-response-size: 1024
 
 jwt:
   secret: ${JWT_SECRET:heronix-dev-secret-change-in-production-must-be-at-least-256-bits-long}
@@ -51,13 +85,18 @@ heronix:
   audit:
     enabled: true
   games:
-    directory: ./games
+    directory: ./Heronix-games
   sis:
     # Heronix SIS (Student Information System) Integration
     enabled: true
     url: http://localhost:9580
     # Test student ID - always valid for testing (not checked against SIS)
     test-student-id: testgm1
+  websocket:
+    # WebSocket configuration for multiplayer games
+    max-connections: 1000
+    heartbeat-interval: 10000
+    session-timeout: 600000
 
 # SpringDoc OpenAPI (Swagger) Configuration
 springdoc:
@@ -71,10 +110,12 @@ springdoc:
 # Logging Configuration
 logging:
   level:
-    com.heronix.edu: DEBUG
-    org.springframework.security: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.heronix.edu: INFO
+    com.heronix.edu.server.websocket: DEBUG  # Keep WebSocket logging for monitoring
+    org.springframework.security: WARN
+    org.springframework.web.socket: INFO
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

@@ -3,6 +3,7 @@ package com.heronix.edu.client.ui.controller;
 import com.heronix.edu.client.api.dto.GameInfoDto;
 import com.heronix.edu.client.db.entity.InstalledGame;
 import com.heronix.edu.client.db.entity.LocalDevice;
+import com.heronix.edu.client.db.entity.LocalGameScore;
 import com.heronix.edu.client.db.repository.GameScoreRepository;
 import com.heronix.edu.client.db.repository.InstalledGameRepository;
 import com.heronix.edu.client.game.GameLauncher;
@@ -17,8 +18,13 @@ import com.heronix.edu.common.game.EducationalGame;
 import com.heronix.edu.common.game.GameContext;
 import com.heronix.edu.common.model.Student;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -26,7 +32,9 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller for the main launcher screen
@@ -47,7 +55,16 @@ public class MainLauncherController {
     @FXML private Button syncNowButton;
     @FXML private FlowPane gamesGrid;
     @FXML private FlowPane storeGamesGrid;
-    @FXML private TableView scoresTable;
+    @FXML private Button joinCodeBreakerBtn;
+    @FXML private TableView<LocalGameScore> scoresTable;
+    @FXML private TableColumn<LocalGameScore, String> gameNameColumn;
+    @FXML private TableColumn<LocalGameScore, String> scoreColumn;
+    @FXML private TableColumn<LocalGameScore, String> accuracyColumn;
+    @FXML private TableColumn<LocalGameScore, String> timeColumn;
+    @FXML private TableColumn<LocalGameScore, String> dateColumn;
+
+    private final ObservableList<LocalGameScore> recentScores = FXCollections.observableArrayList();
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm");
 
     private DeviceService deviceService;
     private GameManager gameManager;
@@ -71,6 +88,9 @@ public class MainLauncherController {
         // Start network monitoring
         networkMonitor.startMonitoring();
 
+        // Initialize scores table
+        initializeScoresTable();
+
         // Load student info
         loadStudentInfo();
 
@@ -80,6 +100,9 @@ public class MainLauncherController {
         // Load available games from store
         loadStoreGames();
 
+        // Load recent scores
+        loadRecentScores();
+
         // Update sync status
         updateSyncStatus();
 
@@ -87,6 +110,72 @@ public class MainLauncherController {
         startStatusUpdates();
 
         logger.info("Main launcher initialized");
+    }
+
+    /**
+     * Initialize the scores table columns
+     */
+    private void initializeScoresTable() {
+        // Set up cell value factories for each column
+        gameNameColumn.setCellValueFactory(cellData -> {
+            String gameId = cellData.getValue().getGameId();
+            // Try to get the game name from installed games
+            Optional<InstalledGame> game = gameManager.getInstalledGame(gameId);
+            String displayName = game.map(InstalledGame::getGameName).orElse(gameId);
+            return new SimpleStringProperty(displayName);
+        });
+
+        scoreColumn.setCellValueFactory(cellData -> {
+            LocalGameScore score = cellData.getValue();
+            return new SimpleStringProperty(score.getScore() + "/" + score.getMaxScore());
+        });
+
+        accuracyColumn.setCellValueFactory(cellData -> {
+            LocalGameScore score = cellData.getValue();
+            if (score.getMaxScore() > 0) {
+                double accuracy = (score.getScore() * 100.0) / score.getMaxScore();
+                return new SimpleStringProperty(String.format("%.0f%%", accuracy));
+            }
+            return new SimpleStringProperty("-");
+        });
+
+        timeColumn.setCellValueFactory(cellData -> {
+            Integer seconds = cellData.getValue().getTimeSeconds();
+            if (seconds != null && seconds > 0) {
+                int mins = seconds / 60;
+                int secs = seconds % 60;
+                return new SimpleStringProperty(String.format("%d:%02d", mins, secs));
+            }
+            return new SimpleStringProperty("-");
+        });
+
+        dateColumn.setCellValueFactory(cellData -> {
+            if (cellData.getValue().getPlayedAt() != null) {
+                return new SimpleStringProperty(cellData.getValue().getPlayedAt().format(DATE_FORMATTER));
+            }
+            return new SimpleStringProperty("-");
+        });
+
+        // Bind the observable list to the table
+        scoresTable.setItems(recentScores);
+
+        logger.debug("Scores table initialized");
+    }
+
+    /**
+     * Load recent scores into the table
+     */
+    private void loadRecentScores() {
+        logger.info("Loading recent scores");
+
+        try {
+            List<LocalGameScore> scores = scoreService.getRecentScores(10);
+            recentScores.clear();
+            recentScores.addAll(scores);
+            logger.info("Loaded {} recent scores", scores.size());
+        } catch (Exception e) {
+            logger.error("Error loading recent scores", e);
+        }
     }
 
     /**
@@ -131,6 +220,7 @@ public class MainLauncherController {
             for (InstalledGame game : games) {
                 GameCard card = new GameCard(game);
                 card.setOnPlay(() -> launchGame(game));
+                card.setOnUninstall(() -> handleUninstallGame(game));
                 gamesGrid.getChildren().add(card);
             }
 
@@ -185,6 +275,7 @@ public class MainLauncherController {
                 // Refresh UI
                 Platform.runLater(() -> {
                     loadGames();
+                    loadRecentScores();  // Refresh recent scores table
                     updateSyncStatus();
                     showInfo("Score saved! " + result.getScore() + "/" + result.getMaxScore());
                 });
@@ -368,6 +459,44 @@ public class MainLauncherController {
     }
 
     /**
+     * Handle uninstall game
+     */
+    private void handleUninstallGame(InstalledGame game) {
+        logger.info("Uninstall requested for game: {}", game.getGameName());
+
+        // Confirm with user
+        javafx.scene.control.Alert confirmDialog = new javafx.scene.control.Alert(
+            javafx.scene.control.Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Uninstall Game");
+        confirmDialog.setHeaderText("Uninstall " + game.getGameName() + "?");
+        confirmDialog.setContentText("This will remove the game from your device. You can re-download it later from the Game Store.");
+
+        confirmDialog.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                // Uninstall in background
+                new Thread(() -> {
+                    try {
+                        gameManager.uninstallGame(game.getGameId());
+
+                        // Success - refresh both tabs
+                        Platform.runLater(() -> {
+                            showInfo("Game uninstalled successfully: " + game.getGameName());
+                            loadGames();
+                            loadStoreGames();
+                        });
+
+                    } catch (Exception e) {
+                        logger.error("Failed to uninstall game: " + game.getGameName(), e);
+                        Platform.runLater(() -> {
+                            showError("Uninstall failed: " + e.getMessage());
+                        });
+                    }
+                }).start();
+            }
+        });
+    }
+
+    /**
      * Handle refresh button
      */
     @FXML
@@ -466,5 +595,38 @@ public class MainLauncherController {
     private void showError(String message) {
         statusLabel.setText(message);
         statusLabel.setStyle("-fx-text-fill: #f44336;");
+    }
+
+    /**
+     * Handle join Code Breaker multiplayer game
+     */
+    @FXML
+    public void handleJoinCodeBreaker() {
+        logger.info("Opening Code Breaker join screen");
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/view/code-breaker-join.fxml")
+            );
+            Scene joinScene = new Scene(loader.load(), 700, 650);
+
+            // Get current scene to return to
+            Scene currentScene = stage.getScene();
+
+            // Pass dependencies to controller
+            CodeBreakerJoinController joinController = loader.getController();
+            joinController.initialize(deviceService, scoreService, stage, () -> {
+                // On back - return to main launcher
+                stage.setScene(currentScene);
+                stage.setTitle("Heronix Educational Games");
+            });
+
+            stage.setScene(joinScene);
+            stage.setTitle("Code Breaker - Join Game");
+
+        } catch (Exception e) {
+            logger.error("Failed to open Code Breaker join screen", e);
+            showError("Failed to open multiplayer game: " + e.getMessage());
+        }
     }
 }

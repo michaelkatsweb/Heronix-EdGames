@@ -1,0 +1,28 @@
+{
+  "subject": "SCIENCE",
+  "gradeRange": "6-8",
+  "name": "Advanced Science Terms",
+  "description": "Science vocabulary for 6th through 8th grade",
+  "entries": [
+    {"word": "ATOM", "clue": "Smallest particle of an element", "category": "chemistry", "difficulty": 2},
+    {"word": "MOLECULE", "clue": "Two or more atoms bonded together", "category": "chemistry", "difficulty": 2},
+    {"word": "ELEMENT", "clue": "Pure substance made of one type of atom", "category": "chemistry", "difficulty": 2},
+    {"word": "COMPOUND", "clue": "Substance made of different elements", "category": "chemistry", "difficulty": 2},
+    {"word": "REACTION", "clue": "Chemical change that creates new substances", "category": "chemistry", "difficulty": 2},
+    {"word": "ELECTRON", "clue": "Negatively charged particle", "category": "chemistry", "difficulty": 3},
+    {"word": "PROTON", "clue": "Positively charged particle in nucleus", "category": "chemistry", "difficulty": 3},
+    {"word": "NEUTRON", "clue": "Particle with no charge in nucleus", "category": "chemistry", "difficulty": 3},
+    {"word": "VELOCITY", "clue": "Speed in a specific direction", "category": "physics", "difficulty": 2},
+    {"word": "MOMENTUM", "clue": "Mass times velocity", "category": "physics", "difficulty": 3},
+    {"word": "FRICTION", "clue": "Force that resists motion", "category": "physics", "difficulty": 2},
+    {"word": "WAVELENGTH", "clue": "Distance between wave peaks", "category": "physics", "difficulty": 3},
+    {"word": "FREQUENCY", "clue": "Number of waves per second", "category": "physics", "difficulty": 3},
+    {"word": "ORGANISM", "clue": "Any living thing", "category": "biology", "difficulty": 2},
+    {"word": "NUCLEUS", "clue": "Control center of a cell", "category": "biology", "difficulty": 2},
+    {"word": "CHROMOSOME", "clue": "Structure containing genetic information", "category": "biology", "difficulty": 3},
+    {"word": "PHOTOSYNTHESIS", "clue": "How plants make food from sunlight", "category": "biology", "difficulty": 3},
+    {"word": "EVOLUTION", "clue": "Change in species over time", "category": "biology", "difficulty": 3},
+    {"word": "TECTONIC", "clue": "Related to Earth's moving plates", "category": "earth", "difficulty": 3},
+    {"word": "EARTHQUAKE", "clue": "Shaking of Earth's surface", "category": "earth", "difficulty": 2}
+  ]
+}

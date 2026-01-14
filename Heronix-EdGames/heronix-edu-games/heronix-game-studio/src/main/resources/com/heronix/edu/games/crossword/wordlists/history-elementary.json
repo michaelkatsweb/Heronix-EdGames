@@ -1,0 +1,28 @@
+{
+  "subject": "HISTORY",
+  "gradeRange": "K-2",
+  "name": "Elementary History",
+  "description": "Basic history concepts for grades K-2",
+  "entries": [
+    {"word": "HERO", "clue": "Brave person who helps others", "category": "people", "difficulty": 1},
+    {"word": "KING", "clue": "Man who rules a country", "category": "people", "difficulty": 1},
+    {"word": "QUEEN", "clue": "Woman who rules a country", "category": "people", "difficulty": 1},
+    {"word": "CASTLE", "clue": "Big stone home for royalty", "category": "places", "difficulty": 1},
+    {"word": "WAR", "clue": "Fight between countries", "category": "events", "difficulty": 1},
+    {"word": "PEACE", "clue": "Time without fighting", "category": "events", "difficulty": 1},
+    {"word": "SHIP", "clue": "Boat that crosses oceans", "category": "things", "difficulty": 1},
+    {"word": "TRAIN", "clue": "Vehicle on tracks", "category": "things", "difficulty": 1},
+    {"word": "OLD", "clue": "From long ago", "category": "concepts", "difficulty": 1},
+    {"word": "NEW", "clue": "Just made or happened", "category": "concepts", "difficulty": 1},
+    {"word": "LONG", "clue": "A lot of time", "category": "concepts", "difficulty": 1},
+    {"word": "YEAR", "clue": "365 days", "category": "time", "difficulty": 1},
+    {"word": "CHANGE", "clue": "When things become different", "category": "concepts", "difficulty": 1},
+    {"word": "STORY", "clue": "Tale about what happened", "category": "concepts", "difficulty": 1},
+    {"word": "BRAVE", "clue": "Not afraid", "category": "values", "difficulty": 1},
+    {"word": "FREE", "clue": "Able to make own choices", "category": "values", "difficulty": 1},
+    {"word": "LAND", "clue": "Ground and earth", "category": "places", "difficulty": 1},
+    {"word": "TOOL", "clue": "Thing that helps do work", "category": "things", "difficulty": 1},
+    {"word": "BUILD", "clue": "Make something new", "category": "actions", "difficulty": 1},
+    {"word": "FIRST", "clue": "Before all others", "category": "concepts", "difficulty": 1}
+  ]
+}

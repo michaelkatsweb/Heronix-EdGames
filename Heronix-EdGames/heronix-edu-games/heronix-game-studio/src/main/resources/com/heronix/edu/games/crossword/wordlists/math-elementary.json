@@ -1,0 +1,28 @@
+{
+  "subject": "MATHEMATICS",
+  "gradeRange": "K-2",
+  "name": "Elementary Math Terms",
+  "description": "Basic math vocabulary for kindergarten through 2nd grade",
+  "entries": [
+    {"word": "ADD", "clue": "Put numbers together to get more", "category": "operations", "difficulty": 1},
+    {"word": "SUM", "clue": "The answer when you add", "category": "operations", "difficulty": 1},
+    {"word": "ONE", "clue": "The first counting number", "category": "numbers", "difficulty": 1},
+    {"word": "TWO", "clue": "One plus one", "category": "numbers", "difficulty": 1},
+    {"word": "TEN", "clue": "Five plus five", "category": "numbers", "difficulty": 1},
+    {"word": "ZERO", "clue": "Nothing at all", "category": "numbers", "difficulty": 2},
+    {"word": "PLUS", "clue": "The sign that means add", "category": "symbols", "difficulty": 1},
+    {"word": "MINUS", "clue": "The sign that means take away", "category": "symbols", "difficulty": 2},
+    {"word": "LESS", "clue": "Smaller amount", "category": "comparison", "difficulty": 1},
+    {"word": "MORE", "clue": "Greater amount", "category": "comparison", "difficulty": 1},
+    {"word": "EQUAL", "clue": "The same amount", "category": "comparison", "difficulty": 2},
+    {"word": "HALF", "clue": "Split into two equal parts", "category": "fractions", "difficulty": 2},
+    {"word": "PAIR", "clue": "A set of two", "category": "numbers", "difficulty": 1},
+    {"word": "COUNT", "clue": "Say numbers in order", "category": "skills", "difficulty": 1},
+    {"word": "SHAPE", "clue": "Circle, square, or triangle", "category": "geometry", "difficulty": 2},
+    {"word": "CIRCLE", "clue": "A round shape", "category": "geometry", "difficulty": 2},
+    {"word": "SQUARE", "clue": "Shape with four equal sides", "category": "geometry", "difficulty": 2},
+    {"word": "BIG", "clue": "Large in size", "category": "measurement", "difficulty": 1},
+    {"word": "SMALL", "clue": "Little in size", "category": "measurement", "difficulty": 1},
+    {"word": "LONG", "clue": "Covers a lot of space", "category": "measurement", "difficulty": 1}
+  ]
+}

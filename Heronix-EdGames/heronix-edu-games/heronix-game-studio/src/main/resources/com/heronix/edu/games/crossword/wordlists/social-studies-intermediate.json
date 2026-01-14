@@ -1,0 +1,28 @@
+{
+  "subject": "SOCIAL_STUDIES",
+  "gradeRange": "3-5",
+  "name": "Intermediate Social Studies",
+  "description": "Geography and government basics for grades 3-5",
+  "entries": [
+    {"word": "CONTINENT", "clue": "Large land mass on Earth", "category": "geography", "difficulty": 2},
+    {"word": "OCEAN", "clue": "Huge body of salt water", "category": "geography", "difficulty": 2},
+    {"word": "EQUATOR", "clue": "Imaginary line around Earth's middle", "category": "geography", "difficulty": 2},
+    {"word": "CAPITAL", "clue": "City where government meets", "category": "government", "difficulty": 2},
+    {"word": "GOVERNOR", "clue": "Leader of a state", "category": "government", "difficulty": 2},
+    {"word": "PRESIDENT", "clue": "Leader of the country", "category": "government", "difficulty": 2},
+    {"word": "CITIZEN", "clue": "Member of a country", "category": "civics", "difficulty": 2},
+    {"word": "ELECTION", "clue": "When people vote for leaders", "category": "civics", "difficulty": 2},
+    {"word": "FREEDOM", "clue": "Right to make choices", "category": "rights", "difficulty": 2},
+    {"word": "CULTURE", "clue": "Way of life of a group", "category": "culture", "difficulty": 2},
+    {"word": "TRADITION", "clue": "Custom passed down over time", "category": "culture", "difficulty": 2},
+    {"word": "RESOURCE", "clue": "Something useful from nature", "category": "economics", "difficulty": 2},
+    {"word": "EXPORT", "clue": "Goods sent to other countries", "category": "economics", "difficulty": 2},
+    {"word": "IMPORT", "clue": "Goods brought from other countries", "category": "economics", "difficulty": 2},
+    {"word": "BORDER", "clue": "Line between two places", "category": "geography", "difficulty": 2},
+    {"word": "REGION", "clue": "Area with similar features", "category": "geography", "difficulty": 2},
+    {"word": "COLONY", "clue": "Settlement ruled by another country", "category": "history", "difficulty": 2},
+    {"word": "PIONEER", "clue": "Early settler in a new land", "category": "history", "difficulty": 2},
+    {"word": "CONGRESS", "clue": "Group that makes laws", "category": "government", "difficulty": 2},
+    {"word": "TREATY", "clue": "Agreement between countries", "category": "government", "difficulty": 3}
+  ]
+}

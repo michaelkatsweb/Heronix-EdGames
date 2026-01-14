@@ -1,6 +1,9 @@
 package com.heronix.edu.client.ui.controller;
 
 import com.heronix.edu.client.service.DeviceService;
+import com.heronix.edu.client.service.GameManager;
+import com.heronix.edu.client.service.ScoreService;
+import com.heronix.edu.client.service.SyncService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,14 +34,21 @@ public class SetupWizardController {
     @FXML private ProgressIndicator progressIndicator;
 
     private DeviceService deviceService;
+    private GameManager gameManager;
+    private ScoreService scoreService;
+    private SyncService syncService;
     private Stage stage;
 
     /**
      * Initialize controller with dependencies
      * Called from HeronixClientApplication
      */
-    public void initialize(DeviceService deviceService, Stage stage) {
+    public void initialize(DeviceService deviceService, GameManager gameManager,
+                          ScoreService scoreService, SyncService syncService, Stage stage) {
         this.deviceService = deviceService;
+        this.gameManager = gameManager;
+        this.scoreService = scoreService;
+        this.syncService = syncService;
         this.stage = stage;
 
         // Set default device name suggestion
@@ -119,7 +129,7 @@ public class SetupWizardController {
             Scene scene = new Scene(loader.load(), 600, 300);
 
             WaitingForApprovalController controller = loader.getController();
-            controller.initialize(deviceService, stage);
+            controller.initialize(deviceService, gameManager, scoreService, syncService, stage);
 
             stage.setScene(scene);
 

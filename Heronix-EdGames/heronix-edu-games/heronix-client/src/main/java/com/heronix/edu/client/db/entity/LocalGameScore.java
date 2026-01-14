@@ -26,8 +26,16 @@ public class LocalGameScore {
     private String lastSyncError;
     private String metadata; // JSON
 
+    // Delta sync fields
+    private int localVersion = 1;      // Increments on each local update
+    private int serverVersion = 0;     // Last known server version
+    private LocalDateTime modifiedAt;
+    private String contentHash;        // SHA-256 of content for change detection
+    private String syncStatus = "PENDING"; // PENDING, SYNCED, CONFLICT, ERROR
+
     // Constructors
     public LocalGameScore() {
+        this.modifiedAt = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -175,6 +183,62 @@ public class LocalGameScore {
         this.metadata = metadata;
     }
 
+    // Delta sync getters and setters
+    public int getLocalVersion() {
+        return localVersion;
+    }
+
+    public void setLocalVersion(int localVersion) {
+        this.localVersion = localVersion;
+    }
+
+    public int getServerVersion() {
+        return serverVersion;
+    }
+
+    public void setServerVersion(int serverVersion) {
+        this.serverVersion = serverVersion;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    public String getContentHash() {
+        return contentHash;
+    }
+
+    public void setContentHash(String contentHash) {
+        this.contentHash = contentHash;
+    }
+
+    public String getSyncStatus() {
+        return syncStatus;
+    }
+
+    public void setSyncStatus(String syncStatus) {
+        this.syncStatus = syncStatus;
+    }
+
+    /**
+     * Increment local version (call when entity is modified)
+     */
+    public void incrementLocalVersion() {
+        this.localVersion++;
+        this.modifiedAt = LocalDateTime.now();
+    }
+
+    /**
+     * Check if this score has unsynced changes
+     */
+    public boolean hasUnsyncedChanges() {
+        return localVersion > serverVersion || "PENDING".equals(syncStatus) || "CONFLICT".equals(syncStatus);
+    }
+
     @Override
     public String toString() {
         return "LocalGameScore{" +
@@ -182,6 +246,9 @@ public class LocalGameScore {
                 ", gameId='" + gameId + '\'' +
                 ", score=" + score +
                 ", synced=" + synced +
+                ", syncStatus='" + syncStatus + '\'' +
+                ", localVersion=" + localVersion +
+                ", serverVersion=" + serverVersion +
                 '}';
     }
 }

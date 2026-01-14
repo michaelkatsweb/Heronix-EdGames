@@ -64,9 +64,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+            String token = bearerToken.substring(7).trim();
+
+            // Basic JWT format validation - must have exactly 2 periods (header.payload.signature)
+            if (token.isEmpty() || countPeriods(token) != 2) {
+                logger.debug("Rejecting malformed token (invalid format) from: {}", request.getRemoteAddr());
+                return null;
+            }
+
+            return token;
         }
         return null;
+    }
+
+    /**
+     * Count period characters in a string (for JWT format validation)
+     */
+    private int countPeriods(String s) {
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '.') count++;
+        }
+        return count;
     }
 
     /**

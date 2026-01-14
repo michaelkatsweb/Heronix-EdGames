@@ -1,0 +1,28 @@
+{
+  "subject": "SCIENCE",
+  "gradeRange": "3-5",
+  "name": "Intermediate Science Terms",
+  "description": "Science vocabulary for 3rd through 5th grade",
+  "entries": [
+    {"word": "MATTER", "clue": "Anything that has mass and takes up space", "category": "chemistry", "difficulty": 2},
+    {"word": "SOLID", "clue": "State of matter with fixed shape", "category": "chemistry", "difficulty": 2},
+    {"word": "LIQUID", "clue": "State of matter that flows", "category": "chemistry", "difficulty": 2},
+    {"word": "GAS", "clue": "State of matter that fills any container", "category": "chemistry", "difficulty": 2},
+    {"word": "ENERGY", "clue": "Ability to do work", "category": "physics", "difficulty": 2},
+    {"word": "FORCE", "clue": "Push or pull on an object", "category": "physics", "difficulty": 2},
+    {"word": "GRAVITY", "clue": "Force that pulls things down", "category": "physics", "difficulty": 2},
+    {"word": "MAGNET", "clue": "Object that attracts iron", "category": "physics", "difficulty": 2},
+    {"word": "CIRCUIT", "clue": "Path for electricity to flow", "category": "physics", "difficulty": 3},
+    {"word": "PLANET", "clue": "Large body orbiting a star", "category": "space", "difficulty": 2},
+    {"word": "ORBIT", "clue": "Path around another object in space", "category": "space", "difficulty": 2},
+    {"word": "SOLAR", "clue": "Related to the sun", "category": "space", "difficulty": 2},
+    {"word": "CELL", "clue": "Basic unit of living things", "category": "biology", "difficulty": 3},
+    {"word": "HABITAT", "clue": "Place where an animal lives", "category": "ecology", "difficulty": 2},
+    {"word": "ECOSYSTEM", "clue": "Community of living things and their environment", "category": "ecology", "difficulty": 3},
+    {"word": "FOSSIL", "clue": "Remains of ancient life in rock", "category": "earth", "difficulty": 2},
+    {"word": "MINERAL", "clue": "Natural solid found in earth", "category": "earth", "difficulty": 2},
+    {"word": "VOLCANO", "clue": "Mountain that erupts lava", "category": "earth", "difficulty": 2},
+    {"word": "WEATHER", "clue": "Condition of the atmosphere", "category": "earth", "difficulty": 2},
+    {"word": "CLIMATE", "clue": "Long-term weather patterns", "category": "earth", "difficulty": 3}
+  ]
+}

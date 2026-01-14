@@ -1,0 +1,28 @@
+{
+  "subject": "HISTORY",
+  "gradeRange": "3-5",
+  "name": "Intermediate History",
+  "description": "American history basics for grades 3-5",
+  "entries": [
+    {"word": "EXPLORER", "clue": "Person who discovers new lands", "category": "people", "difficulty": 2},
+    {"word": "COLUMBUS", "clue": "Sailed to America in 1492", "category": "people", "difficulty": 2},
+    {"word": "PILGRIM", "clue": "Early settler seeking religious freedom", "category": "people", "difficulty": 2},
+    {"word": "REVOLUTION", "clue": "War for independence", "category": "events", "difficulty": 2},
+    {"word": "INDEPENDENCE", "clue": "Freedom from control", "category": "concepts", "difficulty": 2},
+    {"word": "LIBERTY", "clue": "Freedom to act as you choose", "category": "concepts", "difficulty": 2},
+    {"word": "PATRIOT", "clue": "Person who loves their country", "category": "people", "difficulty": 2},
+    {"word": "SLAVERY", "clue": "Forcing people to work without pay", "category": "concepts", "difficulty": 2},
+    {"word": "ABOLISH", "clue": "To end or stop completely", "category": "concepts", "difficulty": 2},
+    {"word": "SETTLER", "clue": "Person who moves to a new area", "category": "people", "difficulty": 2},
+    {"word": "FRONTIER", "clue": "Edge of settled land", "category": "places", "difficulty": 2},
+    {"word": "RAILROAD", "clue": "Train track system", "category": "things", "difficulty": 2},
+    {"word": "INVENTION", "clue": "Something new that is created", "category": "concepts", "difficulty": 2},
+    {"word": "CENTURY", "clue": "One hundred years", "category": "time", "difficulty": 2},
+    {"word": "ANCIENT", "clue": "Very old, from long ago", "category": "time", "difficulty": 2},
+    {"word": "DOCUMENT", "clue": "Important paper with information", "category": "things", "difficulty": 2},
+    {"word": "MONUMENT", "clue": "Structure honoring a person or event", "category": "places", "difficulty": 2},
+    {"word": "ARTIFACT", "clue": "Object from the past", "category": "things", "difficulty": 2},
+    {"word": "VOYAGE", "clue": "Long journey by sea", "category": "events", "difficulty": 2},
+    {"word": "BATTLE", "clue": "Fight during a war", "category": "events", "difficulty": 2}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subject": "LANGUAGE_ARTS",
+  "gradeRange": "3-5",
+  "name": "Intermediate Language Arts",
+  "description": "Reading and writing vocabulary for grades 3-5",
+  "entries": [
+    {"word": "PARAGRAPH", "clue": "Group of sentences about one topic", "category": "writing", "difficulty": 2},
+    {"word": "SENTENCE", "clue": "Complete thought with subject and verb", "category": "writing", "difficulty": 2},
+    {"word": "ADJECTIVE", "clue": "Word that describes a noun", "category": "grammar", "difficulty": 2},
+    {"word": "ADVERB", "clue": "Word that describes a verb", "category": "grammar", "difficulty": 2},
+    {"word": "PRONOUN", "clue": "Word that replaces a noun", "category": "grammar", "difficulty": 2},
+    {"word": "SYNONYM", "clue": "Word with similar meaning", "category": "vocabulary", "difficulty": 2},
+    {"word": "ANTONYM", "clue": "Word with opposite meaning", "category": "vocabulary", "difficulty": 2},
+    {"word": "FICTION", "clue": "Made-up story", "category": "genres", "difficulty": 2},
+    {"word": "NONFICTION", "clue": "True, factual writing", "category": "genres", "difficulty": 2},
+    {"word": "CHARACTER", "clue": "Person or animal in a story", "category": "literature", "difficulty": 2},
+    {"word": "SETTING", "clue": "Where and when a story takes place", "category": "literature", "difficulty": 2},
+    {"word": "PLOT", "clue": "Events that happen in a story", "category": "literature", "difficulty": 2},
+    {"word": "THEME", "clue": "Main message of a story", "category": "literature", "difficulty": 3},
+    {"word": "DIALOGUE", "clue": "Conversation between characters", "category": "literature", "difficulty": 3},
+    {"word": "PREFIX", "clue": "Letters added to beginning of word", "category": "vocabulary", "difficulty": 2},
+    {"word": "SUFFIX", "clue": "Letters added to end of word", "category": "vocabulary", "difficulty": 2},
+    {"word": "SUBJECT", "clue": "Who or what the sentence is about", "category": "grammar", "difficulty": 2},
+    {"word": "PREDICATE", "clue": "Part of sentence with the verb", "category": "grammar", "difficulty": 3},
+    {"word": "QUOTATION", "clue": "Exact words someone said", "category": "punctuation", "difficulty": 2},
+    {"word": "APOSTROPHE", "clue": "Mark showing ownership or contraction", "category": "punctuation", "difficulty": 3}
+  ]
+}

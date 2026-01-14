@@ -1,0 +1,30 @@
+{
+  "gameId": "spelling-tetris",
+  "name": "Spelling Tetris",
+  "description": "A Tetris-style spelling game! Catch falling letters and arrange them on the board to spell words. Complete target words to score points and advance through levels.",
+  "version": "1.0.0",
+  "subject": "Language Arts",
+  "targetGrades": ["2", "3", "4", "5"],
+  "difficulty": ["EASY", "MEDIUM", "HARD"],
+  "jarFile": "spelling-tetris.jar",
+  "icon": "icon.png",
+  "screenshots": [],
+  "author": "Heronix Education",
+  "bundle": "standard",
+  "features": [
+    "Tetris-style gameplay",
+    "Falling letter blocks",
+    "Word completion challenges",
+    "Progressive difficulty",
+    "Increasing speed levels"
+  ],
+  "learningObjectives": [
+    "Improve spelling accuracy",
+    "Build vocabulary recognition",
+    "Develop quick thinking skills",
+    "Practice letter arrangement"
+  ],
+  "minPlayTime": 5,
+  "maxPlayTime": 15,
+  "active": true
+}

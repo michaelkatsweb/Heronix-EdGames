@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.heronix.edu.client.ui.controller.CodeBreakerGameController"
+            style="-fx-background-color: #1a237e;">
+
+    <!-- Top Bar - Player Stats -->
+    <top>
+        <HBox spacing="20" alignment="CENTER" style="-fx-background-color: #311b92; -fx-padding: 15;">
+            <!-- Session Info -->
+            <VBox alignment="CENTER_LEFT">
+                <Label fx:id="sessionCodeLabel" text="Session: ABC123"
+                       style="-fx-text-fill: #b39ddb; -fx-font-size: 12px;"/>
+                <Label fx:id="playerNameLabel" text="Player Name"
+                       style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Avatar Display -->
+            <Label fx:id="avatarLabel" text=""
+                   style="-fx-font-size: 32px;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Credits -->
+            <VBox alignment="CENTER" style="-fx-background-color: rgba(0,255,136,0.2); -fx-padding: 10 20; -fx-background-radius: 10;">
+                <Label text="CREDITS" style="-fx-text-fill: #b39ddb; -fx-font-size: 10px;"/>
+                <Label fx:id="creditsLabel" text="0"
+                       style="-fx-text-fill: #00ff88; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Stats -->
+            <VBox alignment="CENTER" spacing="2">
+                <HBox spacing="10">
+                    <Label fx:id="correctLabel" text="Correct: 0"
+                           style="-fx-text-fill: #81c784; -fx-font-size: 12px;"/>
+                    <Label fx:id="wrongLabel" text="Wrong: 0"
+                           style="-fx-text-fill: #e57373; -fx-font-size: 12px;"/>
+                </HBox>
+                <Label fx:id="rankLabel" text="Rank: --"
+                       style="-fx-text-fill: #ffd54f; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Shield Status -->
+            <VBox fx:id="shieldBox" alignment="CENTER" visible="false">
+                <Label text="" style="-fx-font-size: 24px;"/>
+                <Label text="SHIELDED" style="-fx-text-fill: #64b5f6; -fx-font-size: 10px;"/>
+            </VBox>
+
+            <!-- Time Remaining -->
+            <VBox alignment="CENTER" style="-fx-background-color: rgba(255,255,255,0.1); -fx-padding: 10; -fx-background-radius: 10;">
+                <Label text="TIME" style="-fx-text-fill: #b39ddb; -fx-font-size: 10px;"/>
+                <Label fx:id="timeLabel" text="--:--"
+                       style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Leave Game Button -->
+            <Button text="Leave Game" onAction="#handleLeaveGame"
+                    style="-fx-background-color: rgba(255,82,82,0.3); -fx-text-fill: #ff5252; -fx-font-size: 12px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand; -fx-border-color: #ff5252; -fx-border-radius: 5;"/>
+        </HBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <HBox spacing="20" style="-fx-padding: 20;">
+
+            <!-- Left Panel - Question/Answer Area -->
+            <VBox spacing="20" HBox.hgrow="ALWAYS">
+
+                <!-- Waiting State -->
+                <VBox fx:id="waitingPane" alignment="CENTER" spacing="20" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 15;">
+                    <Label text="Waiting for game to start..."
+                           style="-fx-text-fill: white; -fx-font-size: 24px;"/>
+                    <ProgressIndicator style="-fx-progress-color: #00ff88;"/>
+                    <Label fx:id="waitingPlayersLabel" text="Players joined: 0"
+                           style="-fx-text-fill: #b39ddb; -fx-font-size: 16px;"/>
+                </VBox>
+
+                <!-- Question Panel -->
+                <VBox fx:id="questionPane" spacing="20" visible="false" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: rgba(255,255,255,0.05); -fx-padding: 30; -fx-background-radius: 15;">
+                    <Label text="QUESTION" style="-fx-text-fill: #b39ddb; -fx-font-size: 12px;"/>
+                    <Label fx:id="questionLabel" text="Loading question..."
+                           wrapText="true"
+                           style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+                    <Region VBox.vgrow="ALWAYS"/>
+
+                    <!-- Answer Options -->
+                    <VBox fx:id="answersBox" spacing="10"/>
+
+                    <!-- Question Timer -->
+                    <ProgressBar fx:id="questionTimer" progress="1.0" prefHeight="8" maxWidth="Infinity"
+                                 style="-fx-accent: #00ff88;"/>
+                </VBox>
+
+                <!-- Reward Selection Panel -->
+                <VBox fx:id="rewardPane" alignment="CENTER" spacing="20" visible="false" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: rgba(0,255,136,0.1); -fx-padding: 30; -fx-background-radius: 15;">
+                    <Label text="CORRECT!" style="-fx-text-fill: #00ff88; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+                    <Label text="Choose your reward:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                    <HBox fx:id="rewardsBox" spacing="20" alignment="CENTER"/>
+                </VBox>
+
+                <!-- Wrong Answer Panel -->
+                <VBox fx:id="wrongPane" alignment="CENTER" spacing="15" visible="false" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: rgba(255,82,82,0.1); -fx-padding: 30; -fx-background-radius: 15;">
+                    <Label text="WRONG!" style="-fx-text-fill: #ff5252; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+                    <Label fx:id="correctAnswerLabel" text="The correct answer was: ..."
+                           style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                    <Button text="Next Question" onAction="#handleNextQuestion"
+                            style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 30; -fx-background-radius: 5;"/>
+                </VBox>
+
+                <!-- Mini-Challenge Panel (when hacked) -->
+                <VBox fx:id="challengePane" alignment="CENTER" spacing="20" visible="false" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: rgba(255,152,0,0.2); -fx-padding: 30; -fx-background-radius: 15;">
+                    <Label text="YOU'VE BEEN HACKED!" style="-fx-text-fill: #ff9800; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                    <Label fx:id="hackerNameLabel" text="Someone is stealing your credits!"
+                           style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                    <Label text="Complete this mini-challenge to defend:" style="-fx-text-fill: #ffcc80; -fx-font-size: 14px;"/>
+
+                    <Label fx:id="challengeQuestionLabel" text="Quick! Answer this:"
+                           style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <HBox fx:id="challengeAnswersBox" spacing="15" alignment="CENTER"/>
+
+                    <ProgressBar fx:id="challengeTimer" progress="1.0" prefHeight="6" prefWidth="300"
+                                 style="-fx-accent: #ff9800;"/>
+                </VBox>
+
+                <!-- Game Over Panel -->
+                <VBox fx:id="gameOverPane" alignment="CENTER" spacing="20" visible="false" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: rgba(255,255,255,0.1); -fx-padding: 40; -fx-background-radius: 15;">
+                    <Label text="GAME OVER!" style="-fx-text-fill: #ffd54f; -fx-font-size: 36px; -fx-font-weight: bold;"/>
+                    <Label fx:id="finalRankLabel" text="You finished in 1st place!"
+                           style="-fx-text-fill: white; -fx-font-size: 20px;"/>
+                    <Label fx:id="finalCreditsLabel" text="Final Credits: 0"
+                           style="-fx-text-fill: #00ff88; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+                    <HBox spacing="20" alignment="CENTER">
+                        <VBox alignment="CENTER">
+                            <Label fx:id="finalCorrectLabel" text="0" style="-fx-text-fill: #81c784; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            <Label text="Correct" style="-fx-text-fill: #b39ddb; -fx-font-size: 12px;"/>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <Label fx:id="finalWrongLabel" text="0" style="-fx-text-fill: #e57373; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            <Label text="Wrong" style="-fx-text-fill: #b39ddb; -fx-font-size: 12px;"/>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <Label fx:id="finalHacksLabel" text="0" style="-fx-text-fill: #64b5f6; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                            <Label text="Hacks" style="-fx-text-fill: #b39ddb; -fx-font-size: 12px;"/>
+                        </VBox>
+                    </HBox>
+
+                    <Button text="Back to Launcher" onAction="#handleBackToLauncher"
+                            style="-fx-background-color: #00ff88; -fx-text-fill: #1a237e; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 15 40; -fx-background-radius: 25;"/>
+                </VBox>
+            </VBox>
+
+            <!-- Right Panel - Hack & Leaderboard -->
+            <VBox spacing="15" prefWidth="320">
+
+                <!-- Hack Panel -->
+                <VBox spacing="10" style="-fx-background-color: rgba(255,255,255,0.05); -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="HACK PLAYERS" style="-fx-text-fill: #ff5252; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+                    <!-- Target Selection -->
+                    <ScrollPane prefHeight="150" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+                        <VBox fx:id="hackTargetsBox" spacing="8"/>
+                    </ScrollPane>
+
+                    <!-- Code Guess -->
+                    <VBox fx:id="hackInputBox" spacing="8" visible="false">
+                        <Label fx:id="hackTargetLabel" text="Hacking: Player"
+                               style="-fx-text-fill: #ff5252; -fx-font-size: 12px;"/>
+                        <Label fx:id="hackHintLabel" text=""
+                               style="-fx-text-fill: #ffcc80; -fx-font-size: 11px; -fx-font-style: italic;"/>
+                        <HBox fx:id="hackCodeButtons" spacing="5" alignment="CENTER"/>
+                        <Button fx:id="hackButton" text="ATTEMPT HACK" onAction="#handleHackAttempt"
+                                maxWidth="Infinity"
+                                style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 8; -fx-background-radius: 5;"/>
+                    </VBox>
+                </VBox>
+
+                <!-- Leaderboard -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS" style="-fx-background-color: rgba(255,255,255,0.05); -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="LEADERBOARD" style="-fx-text-fill: #ffd54f; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                        <VBox fx:id="leaderboardBox" spacing="5"/>
+                    </ScrollPane>
+                </VBox>
+
+                <!-- Activity Log -->
+                <VBox spacing="5" prefHeight="120" style="-fx-background-color: rgba(255,255,255,0.05); -fx-padding: 10; -fx-background-radius: 10;">
+                    <Label text="ACTIVITY" style="-fx-text-fill: #b39ddb; -fx-font-size: 11px;"/>
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background: transparent; -fx-background-color: transparent;">
+                        <VBox fx:id="activityBox" spacing="3"/>
+                    </ScrollPane>
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+
+</BorderPane>

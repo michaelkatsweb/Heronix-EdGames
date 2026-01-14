@@ -31,6 +31,40 @@ public class DeviceService {
         this.deviceRepository = deviceRepository;
         this.tokenManager = tokenManager;
         this.apiClient = new HeronixApiClient(tokenManager);
+
+        // Restore cached token from database if available
+        restoreCachedToken();
+    }
+
+    /**
+     * Restore cached JWT token from database on startup
+     */
+    private void restoreCachedToken() {
+        try {
+            Optional<LocalDevice> device = deviceRepository.findDevice();
+            if (device.isPresent()) {
+                LocalDevice d = device.get();
+                String cachedToken = d.getJwtToken();
+
+                // Validate token format before attempting restore
+                if (cachedToken != null && !cachedToken.trim().isEmpty() && cachedToken.contains(".")) {
+                    if (d.getTokenExpiresAt() != null && d.getTokenExpiresAt().isAfter(LocalDateTime.now())) {
+                        tokenManager.saveToken(cachedToken, d.getTokenExpiresAt());
+                        logger.info("Restored cached JWT token from database (expires: {})", d.getTokenExpiresAt());
+                    } else {
+                        logger.info("Cached JWT token is expired, will re-authenticate when needed");
+                    }
+                } else if (cachedToken != null && !cachedToken.isEmpty()) {
+                    logger.warn("Cached token has invalid format (missing periods), clearing it");
+                    // Clear the invalid token from database
+                    d.setJwtToken(null);
+                    d.setTokenExpiresAt(null);
+                    deviceRepository.saveOrUpdate(d);
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("Failed to restore cached token: {}", e.getMessage());
+        }
     }
 
     /**
@@ -213,6 +247,54 @@ public class DeviceService {
             return true;
         } catch (Exception e) {
             logger.error("Server connection test failed", e);
+            return false;
+        }
+    }
+
+    /**
+     * Check if device is registered on the server and sync locally if so.
+     * This handles the case where the local database was cleared but the device
+     * is still registered on the server.
+     *
+     * @return true if device was found on server and synced locally, false otherwise
+     */
+    public boolean syncDeviceFromServer() {
+        String deviceId = DeviceIdentifier.generateDeviceId();
+        logger.info("Checking if device {} exists on server", deviceId);
+
+        try {
+            // Query server for device status
+            DeviceStatusResponse response = apiClient.getDeviceStatus(deviceId);
+
+            if (response != null && response.getStatus() != null) {
+                logger.info("Device found on server with status: {}", response.getStatus());
+
+                // Create local device record from server data
+                LocalDevice device = new LocalDevice();
+                device.setDeviceId(deviceId);
+                device.setStudentId(response.getStudentId());
+                device.setDeviceName(response.getDeviceName() != null ? response.getDeviceName() : "Restored Device");
+                device.setDeviceType("DESKTOP");
+                device.setOsName(System.getProperty("os.name"));
+                device.setOsVersion(System.getProperty("os.version"));
+                device.setAppVersion(AppConfig.getAppVersion());
+                device.setStatus(response.getStatus());
+                device.setRegisteredAt(LocalDateTime.now());
+
+                if ("APPROVED".equals(response.getStatus())) {
+                    device.setApprovedAt(LocalDateTime.now());
+                }
+
+                deviceRepository.saveOrUpdate(device);
+                logger.info("Device synced from server successfully");
+                return true;
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            // Device not found on server or server unreachable
+            logger.debug("Device not found on server or server unreachable: {}", e.getMessage());
             return false;
         }
     }

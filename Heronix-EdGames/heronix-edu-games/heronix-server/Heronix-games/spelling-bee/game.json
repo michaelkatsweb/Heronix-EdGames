@@ -1,0 +1,28 @@
+{
+  "gameId": "spelling-bee",
+  "name": "Spelling Bee",
+  "description": "Master spelling through fun word challenges! Type the word correctly based on hints to earn points and advance through levels.",
+  "version": "1.0.0",
+  "subject": "Language Arts",
+  "targetGrades": ["2", "3", "4", "5"],
+  "difficulty": ["EASY", "MEDIUM", "HARD"],
+  "jarFile": "spelling-bee.jar",
+  "icon": "icon.png",
+  "screenshots": [],
+  "author": "Heronix Education",
+  "bundle": "standard",
+  "features": [
+    "Word typing practice",
+    "Progressive difficulty",
+    "Hint system",
+    "Word categories"
+  ],
+  "learningObjectives": [
+    "Improve spelling accuracy",
+    "Build vocabulary",
+    "Develop phonetic awareness"
+  ],
+  "minPlayTime": 5,
+  "maxPlayTime": 20,
+  "active": true
+}

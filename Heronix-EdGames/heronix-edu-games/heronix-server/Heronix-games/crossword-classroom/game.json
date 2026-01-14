@@ -1,0 +1,34 @@
+{
+  "gameId": "crossword-classroom",
+  "name": "Crossword Classroom",
+  "description": "Solve educational crossword puzzles to test your knowledge across multiple subjects! Choose from Math, Science, Language Arts, Social Studies, and History with three difficulty levels.",
+  "version": "1.0.0",
+  "subject": "Multiple Subjects",
+  "targetGrades": ["3", "4", "5", "6", "7", "8"],
+  "difficulty": ["EASY", "MEDIUM", "HARD"],
+  "jarFile": "crossword-classroom.jar",
+  "icon": "icon.png",
+  "screenshots": [],
+  "author": "Heronix Education",
+  "bundle": "standard",
+  "features": [
+    "Multiple subjects (Math, Science, Language Arts, Social Studies, History)",
+    "Three difficulty levels (Elementary, Intermediate, Advanced)",
+    "Interactive crossword grid with keyboard navigation",
+    "Across and Down clue panels",
+    "Animated owl mascot with feedback",
+    "Hint system with scoring impact",
+    "Check answers feature",
+    "Timer-based gameplay"
+  ],
+  "learningObjectives": [
+    "Reinforce vocabulary across subjects",
+    "Improve spelling accuracy",
+    "Build knowledge retention through clue-based recall",
+    "Develop problem-solving skills",
+    "Enhance cross-curricular learning"
+  ],
+  "minPlayTime": 10,
+  "maxPlayTime": 30,
+  "active": true
+}

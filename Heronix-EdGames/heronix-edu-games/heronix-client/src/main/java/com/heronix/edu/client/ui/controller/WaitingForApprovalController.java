@@ -2,8 +2,13 @@ package com.heronix.edu.client.ui.controller;
 
 import com.heronix.edu.client.db.entity.LocalDevice;
 import com.heronix.edu.client.service.DeviceService;
+import com.heronix.edu.client.service.GameManager;
+import com.heronix.edu.client.service.ScoreService;
+import com.heronix.edu.client.service.SyncService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -31,6 +36,9 @@ public class WaitingForApprovalController {
     @FXML private ProgressIndicator progressIndicator;
 
     private DeviceService deviceService;
+    private GameManager gameManager;
+    private ScoreService scoreService;
+    private SyncService syncService;
     private Stage stage;
     private ScheduledExecutorService scheduler;
 
@@ -38,8 +46,12 @@ public class WaitingForApprovalController {
      * Initialize controller with dependencies
      * Called from SetupWizardController or HeronixClientApplication
      */
-    public void initialize(DeviceService deviceService, Stage stage) {
+    public void initialize(DeviceService deviceService, GameManager gameManager,
+                          ScoreService scoreService, SyncService syncService, Stage stage) {
         this.deviceService = deviceService;
+        this.gameManager = gameManager;
+        this.scoreService = scoreService;
+        this.syncService = syncService;
         this.stage = stage;
 
         // Load device info
@@ -222,13 +234,20 @@ public class WaitingForApprovalController {
     }
 
     /**
-     * Show main launcher (placeholder for Phase 5)
+     * Show main launcher
      */
     private void showMainLauncher() throws Exception {
-        logger.info("Main launcher not yet implemented (Phase 5)");
-        statusLabel.setText("Main launcher coming in Phase 5!");
-        statusLabel.setStyle("-fx-text-fill: #4CAF50;");
-        // TODO: Implement in Phase 5
+        logger.info("Loading main launcher");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main-launcher.fxml"));
+        Scene scene = new Scene(loader.load(), 1024, 768);
+
+        // Pass dependencies to controller
+        MainLauncherController controller = loader.getController();
+        controller.initialize(deviceService, gameManager, scoreService, syncService, stage);
+
+        stage.setScene(scene);
+        stage.setTitle("Heronix Educational Games");
     }
 
     /**

@@ -65,23 +65,51 @@ public class HeronixClientApplication extends Application {
 
         // Check device state and show appropriate screen
         if (!deviceService.isDeviceRegistered()) {
-            logger.info("Device not registered, showing setup wizard");
-            showSetupWizard(primaryStage);
-        } else if (!deviceService.isDeviceApproved()) {
+            // Not registered locally - check if registered on server (e.g., local DB was cleared)
+            logger.info("Device not registered locally, checking server...");
+            if (deviceService.syncDeviceFromServer()) {
+                logger.info("Device found on server - synced locally");
+                // Now proceed with normal flow
+                handleRegisteredDevice(primaryStage);
+            } else {
+                logger.info("Device not registered on server either, showing setup wizard");
+                showSetupWizard(primaryStage);
+            }
+        } else {
+            // Device registered locally
+            handleRegisteredDevice(primaryStage);
+        }
+
+        primaryStage.show();
+    }
+
+    /**
+     * Handle flow for a device that is registered (either locally or synced from server)
+     */
+    private void handleRegisteredDevice(Stage primaryStage) throws Exception {
+        if (!deviceService.isDeviceApproved()) {
             logger.info("Device registered but not approved, showing waiting screen");
             showWaitingForApproval(primaryStage);
         } else {
             logger.info("Device approved, authenticating and showing main launcher");
-            // Authenticate to get token
-            deviceService.authenticateDevice();
 
-            // Start background sync
+            // Try to authenticate to get token (non-blocking for offline mode)
+            try {
+                if (networkMonitor.isOnline()) {
+                    deviceService.authenticateDevice();
+                    logger.info("Device authenticated successfully");
+                } else {
+                    logger.info("Server offline, skipping authentication - using cached token if available");
+                }
+            } catch (Exception e) {
+                logger.warn("Authentication failed (server may be offline): {}. Continuing in offline mode.", e.getMessage());
+            }
+
+            // Start background sync (will sync when server becomes available)
             syncService.startBackgroundSync();
 
             showMainLauncher(primaryStage);
         }
-
-        primaryStage.show();
     }
 
     /**
@@ -93,7 +121,7 @@ public class HeronixClientApplication extends Application {
 
         // Pass dependencies to controller
         com.heronix.edu.client.ui.controller.SetupWizardController controller = loader.getController();
-        controller.initialize(deviceService, stage);
+        controller.initialize(deviceService, gameManager, scoreService, syncService, stage);
 
         stage.setScene(scene);
     }
@@ -107,7 +135,7 @@ public class HeronixClientApplication extends Application {
 
         // Pass dependencies to controller
         com.heronix.edu.client.ui.controller.WaitingForApprovalController controller = loader.getController();
-        controller.initialize(deviceService, stage);
+        controller.initialize(deviceService, gameManager, scoreService, syncService, stage);
 
         stage.setScene(scene);
     }

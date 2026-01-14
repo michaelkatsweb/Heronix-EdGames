@@ -1,0 +1,28 @@
+{
+  "subject": "SCIENCE",
+  "gradeRange": "K-2",
+  "name": "Elementary Science Terms",
+  "description": "Basic science vocabulary for kindergarten through 2nd grade",
+  "entries": [
+    {"word": "SUN", "clue": "Star that gives us light and heat", "category": "space", "difficulty": 1},
+    {"word": "MOON", "clue": "Round object in the night sky", "category": "space", "difficulty": 1},
+    {"word": "STAR", "clue": "Twinkles in the night sky", "category": "space", "difficulty": 1},
+    {"word": "RAIN", "clue": "Water falling from clouds", "category": "weather", "difficulty": 1},
+    {"word": "CLOUD", "clue": "White fluffy thing in the sky", "category": "weather", "difficulty": 1},
+    {"word": "WIND", "clue": "Moving air you can feel", "category": "weather", "difficulty": 1},
+    {"word": "SNOW", "clue": "Frozen water that falls in winter", "category": "weather", "difficulty": 1},
+    {"word": "PLANT", "clue": "Living thing with leaves", "category": "life", "difficulty": 1},
+    {"word": "TREE", "clue": "Tall plant with trunk and branches", "category": "life", "difficulty": 1},
+    {"word": "SEED", "clue": "Small thing that grows into a plant", "category": "life", "difficulty": 1},
+    {"word": "LEAF", "clue": "Green part of a plant", "category": "life", "difficulty": 1},
+    {"word": "ROOT", "clue": "Part of plant under the ground", "category": "life", "difficulty": 2},
+    {"word": "ANIMAL", "clue": "Living thing that can move around", "category": "life", "difficulty": 2},
+    {"word": "BIRD", "clue": "Animal with feathers that can fly", "category": "animals", "difficulty": 1},
+    {"word": "FISH", "clue": "Animal that swims in water", "category": "animals", "difficulty": 1},
+    {"word": "ROCK", "clue": "Hard thing found on the ground", "category": "earth", "difficulty": 1},
+    {"word": "WATER", "clue": "Liquid we drink", "category": "matter", "difficulty": 1},
+    {"word": "AIR", "clue": "What we breathe", "category": "matter", "difficulty": 1},
+    {"word": "HOT", "clue": "High temperature", "category": "properties", "difficulty": 1},
+    {"word": "COLD", "clue": "Low temperature", "category": "properties", "difficulty": 1}
+  ]
+}

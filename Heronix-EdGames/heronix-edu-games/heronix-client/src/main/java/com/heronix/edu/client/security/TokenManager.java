@@ -19,6 +19,18 @@ public class TokenManager {
      * Save a new JWT token
      */
     public void saveToken(String token, LocalDateTime expiresAt) {
+        // Validate token before saving
+        if (token == null || token.trim().isEmpty()) {
+            logger.warn("Attempted to save null or empty token - ignoring");
+            return;
+        }
+
+        // Basic JWT format validation (should have 2 periods for standard JWT)
+        if (!token.contains(".")) {
+            logger.warn("Attempted to save invalid JWT format (no periods) - ignoring");
+            return;
+        }
+
         this.token = token;
         this.expiresAt = expiresAt;
         logger.info("Token saved, expires at: {}", expiresAt);
@@ -30,6 +42,9 @@ public class TokenManager {
      */
     public String getToken() {
         if (!isTokenValid()) {
+            logger.debug("Token validation failed - token: {}, expiresAt: {}",
+                token != null ? (token.isEmpty() ? "empty" : "present") : "null",
+                expiresAt);
             throw new TokenExpiredException("Token expired or not found");
         }
         return token;
@@ -40,6 +55,8 @@ public class TokenManager {
      */
     public boolean isTokenValid() {
         return token != null &&
+               !token.trim().isEmpty() &&
+               token.contains(".") &&  // Basic JWT format check
                expiresAt != null &&
                LocalDateTime.now().isBefore(expiresAt);
     }

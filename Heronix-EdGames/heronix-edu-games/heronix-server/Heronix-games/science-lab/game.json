@@ -1,0 +1,29 @@
+{
+  "gameId": "science-lab",
+  "name": "Science Lab",
+  "description": "Conduct virtual experiments and explore scientific concepts! Mix chemicals, observe reactions, and learn about the natural world.",
+  "version": "1.0.0",
+  "subject": "Science",
+  "targetGrades": ["4", "5", "6", "7", "8"],
+  "difficulty": ["EASY", "MEDIUM", "HARD", "EXPERT"],
+  "jarFile": "science-lab.jar",
+  "icon": "icon.png",
+  "screenshots": [],
+  "author": "Heronix Education",
+  "bundle": "standard",
+  "features": [
+    "Virtual experiments",
+    "Interactive simulations",
+    "Scientific method practice",
+    "Lab safety training"
+  ],
+  "learningObjectives": [
+    "Understand scientific method",
+    "Learn chemistry basics",
+    "Explore physics concepts",
+    "Develop critical thinking"
+  ],
+  "minPlayTime": 10,
+  "maxPlayTime": 30,
+  "active": true
+}

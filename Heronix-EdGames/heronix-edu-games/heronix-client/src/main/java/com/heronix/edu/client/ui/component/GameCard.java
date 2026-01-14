@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
@@ -16,6 +17,7 @@ public class GameCard extends VBox {
 
     private final InstalledGame game;
     private Button playButton;
+    private Button uninstallButton;
 
     public GameCard(InstalledGame game) {
         this.game = game;
@@ -88,11 +90,39 @@ public class GameCard extends VBox {
                                "-fx-background-radius: 4px; " +
                                "-fx-cursor: hand;"));
 
+        // Uninstall button
+        uninstallButton = new Button("Uninstall");
+        uninstallButton.setPrefWidth(160);
+        uninstallButton.setStyle("-fx-background-color: #f44336; " +
+                                "-fx-text-fill: white; " +
+                                "-fx-font-size: 12px; " +
+                                "-fx-padding: 8px 16px; " +
+                                "-fx-background-radius: 4px; " +
+                                "-fx-cursor: hand;");
+
+        // Hover effect for uninstall button
+        uninstallButton.setOnMouseEntered(e ->
+            uninstallButton.setStyle("-fx-background-color: #da190b; " +
+                                    "-fx-text-fill: white; " +
+                                    "-fx-font-size: 12px; " +
+                                    "-fx-padding: 8px 16px; " +
+                                    "-fx-background-radius: 4px; " +
+                                    "-fx-cursor: hand;"));
+
+        uninstallButton.setOnMouseExited(e ->
+            uninstallButton.setStyle("-fx-background-color: #f44336; " +
+                                    "-fx-text-fill: white; " +
+                                    "-fx-font-size: 12px; " +
+                                    "-fx-padding: 8px 16px; " +
+                                    "-fx-background-radius: 4px; " +
+                                    "-fx-cursor: hand;"));
+
         // Add spacing
         VBox.setMargin(playButton, new Insets(10, 0, 0, 0));
+        VBox.setMargin(uninstallButton, new Insets(5, 0, 0, 0));
 
         // Add all components
-        getChildren().addAll(iconLabel, nameLabel, subjectLabel, lastPlayedLabel, playButton);
+        getChildren().addAll(iconLabel, nameLabel, subjectLabel, lastPlayedLabel, playButton, uninstallButton);
     }
 
     /**
@@ -126,6 +156,13 @@ public class GameCard extends VBox {
      */
     public void setOnPlay(Runnable action) {
         playButton.setOnAction(e -> action.run());
+    }
+
+    /**
+     * Set the uninstall button action
+     */
+    public void setOnUninstall(Runnable action) {
+        uninstallButton.setOnAction(e -> action.run());
     }
 
     /**

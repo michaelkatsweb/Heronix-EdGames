@@ -1,0 +1,28 @@
+{
+  "subject": "LANGUAGE_ARTS",
+  "gradeRange": "6-8",
+  "name": "Advanced Language Arts",
+  "description": "Literary analysis and advanced grammar for grades 6-8",
+  "entries": [
+    {"word": "PROTAGONIST", "clue": "Main character in a story", "category": "literature", "difficulty": 3},
+    {"word": "ANTAGONIST", "clue": "Character who opposes the main character", "category": "literature", "difficulty": 3},
+    {"word": "METAPHOR", "clue": "Comparison without using like or as", "category": "figurative", "difficulty": 3},
+    {"word": "SIMILE", "clue": "Comparison using like or as", "category": "figurative", "difficulty": 2},
+    {"word": "HYPERBOLE", "clue": "Extreme exaggeration for effect", "category": "figurative", "difficulty": 3},
+    {"word": "ALLITERATION", "clue": "Repeated consonant sounds at word beginnings", "category": "sound", "difficulty": 3},
+    {"word": "ONOMATOPOEIA", "clue": "Words that sound like what they describe", "category": "sound", "difficulty": 4},
+    {"word": "PERSONIFICATION", "clue": "Giving human traits to non-human things", "category": "figurative", "difficulty": 4},
+    {"word": "IRONY", "clue": "Opposite of what is expected", "category": "literary", "difficulty": 3},
+    {"word": "FORESHADOWING", "clue": "Hints about future events", "category": "literary", "difficulty": 4},
+    {"word": "FLASHBACK", "clue": "Scene showing past events", "category": "literary", "difficulty": 3},
+    {"word": "SYMBOLISM", "clue": "Using objects to represent ideas", "category": "literary", "difficulty": 3},
+    {"word": "IMAGERY", "clue": "Descriptive language appealing to senses", "category": "literary", "difficulty": 3},
+    {"word": "CONFLICT", "clue": "Struggle between opposing forces", "category": "plot", "difficulty": 2},
+    {"word": "RESOLUTION", "clue": "How the conflict is solved", "category": "plot", "difficulty": 3},
+    {"word": "CLIMAX", "clue": "Turning point of highest tension", "category": "plot", "difficulty": 3},
+    {"word": "EXPOSITION", "clue": "Introduction of characters and setting", "category": "plot", "difficulty": 3},
+    {"word": "NARRATIVE", "clue": "Story told by a narrator", "category": "genres", "difficulty": 3},
+    {"word": "MEMOIR", "clue": "Personal account of life events", "category": "genres", "difficulty": 3},
+    {"word": "BIBLIOGRAPHY", "clue": "List of sources used in research", "category": "research", "difficulty": 3}
+  ]
+}

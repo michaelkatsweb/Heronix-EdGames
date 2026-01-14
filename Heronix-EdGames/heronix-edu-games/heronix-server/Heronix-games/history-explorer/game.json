@@ -1,0 +1,29 @@
+{
+  "gameId": "history-explorer",
+  "name": "History Explorer",
+  "description": "Travel through time and discover historical events! Learn about ancient civilizations, famous figures, and world-changing moments.",
+  "version": "1.0.0",
+  "subject": "History",
+  "targetGrades": ["4", "5", "6", "7", "8"],
+  "difficulty": ["EASY", "MEDIUM", "HARD"],
+  "jarFile": "history-explorer.jar",
+  "icon": "icon.png",
+  "screenshots": [],
+  "author": "Heronix Education",
+  "bundle": "standard",
+  "features": [
+    "Interactive timeline",
+    "Historical quizzes",
+    "Virtual museum tours",
+    "Famous figure profiles"
+  ],
+  "learningObjectives": [
+    "Learn world history",
+    "Understand cause and effect",
+    "Develop historical thinking",
+    "Connect past to present"
+  ],
+  "minPlayTime": 10,
+  "maxPlayTime": 25,
+  "active": true
+}

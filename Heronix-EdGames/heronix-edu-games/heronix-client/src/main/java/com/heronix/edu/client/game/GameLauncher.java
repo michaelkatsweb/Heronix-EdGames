@@ -39,10 +39,18 @@ public class GameLauncher {
 
         try {
             // Initialize game with context
+            System.out.println("====== CLIENT: About to call game.initialize() ======");
+            System.err.println("====== CLIENT: About to call game.initialize() (STDERR) ======");
             game.initialize(context);
+            System.out.println("====== CLIENT: game.initialize() completed ======");
+            System.err.println("====== CLIENT: game.initialize() completed (STDERR) ======");
 
             // Start game (game handles its own UI)
+            System.out.println("====== CLIENT: About to call game.start() ======");
+            System.err.println("====== CLIENT: About to call game.start() (STDERR) ======");
             game.start();
+            System.out.println("====== CLIENT: game.start() completed ======");
+            System.err.println("====== CLIENT: game.start() completed (STDERR) ======");
 
             logger.info("Game launched successfully: {}", game.getName());
 

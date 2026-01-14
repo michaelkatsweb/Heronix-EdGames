@@ -25,8 +25,9 @@ public class GameScoreRepository {
         String sql = "INSERT INTO game_score (score_id, student_id, game_id, score, max_score, " +
                      "time_seconds, correct_answers, incorrect_answers, completion_percentage, " +
                      "completed, difficulty_level, played_at, device_id, synced, synced_at, " +
-                     "sync_attempts, last_sync_error, metadata) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "sync_attempts, last_sync_error, metadata, " +
+                     "local_version, server_version, modified_at, content_hash, sync_status) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -49,6 +50,12 @@ public class GameScoreRepository {
             pstmt.setInt(16, score.getSyncAttempts());
             pstmt.setString(17, score.getLastSyncError());
             pstmt.setString(18, score.getMetadata());
+            // Delta sync fields
+            pstmt.setInt(19, score.getLocalVersion());
+            pstmt.setInt(20, score.getServerVersion());
+            pstmt.setTimestamp(21, toTimestamp(score.getModifiedAt()));
+            pstmt.setString(22, score.getContentHash());
+            pstmt.setString(23, score.getSyncStatus());
 
             pstmt.executeUpdate();
             logger.debug("Game score saved: {}", score.getScoreId());
@@ -160,6 +167,39 @@ public class GameScoreRepository {
     }
 
     /**
+     * Find recent scores (most recent first)
+     */
+    public List<LocalGameScore> findRecentScores(int limit) {
+        String sql = "SELECT * FROM game_score ORDER BY played_at DESC LIMIT ?";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, limit);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<LocalGameScore> scores = new ArrayList<>();
+                while (rs.next()) {
+                    scores.add(mapResultSetToScore(rs));
+                }
+                return scores;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error finding recent scores", e);
+            throw new RuntimeException("Failed to find recent scores", e);
+        }
+    }
+
+    /**
+     * Find all scores
+     */
+    public List<LocalGameScore> findAll() {
+        String sql = "SELECT * FROM game_score ORDER BY played_at DESC";
+        return findScoresBySql(sql);
+    }
+
+    /**
      * Get count of unsynced scores
      */
     public int countUnsyncedScores() {
@@ -177,6 +217,153 @@ public class GameScoreRepository {
         } catch (SQLException e) {
             logger.error("Error counting unsynced scores", e);
             throw new RuntimeException("Failed to count unsynced scores", e);
+        }
+    }
+
+    /**
+     * Find scores modified after a given timestamp (for delta sync)
+     */
+    public List<LocalGameScore> findModifiedAfter(LocalDateTime since) {
+        String sql = "SELECT * FROM game_score WHERE modified_at > ? ORDER BY modified_at";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setTimestamp(1, Timestamp.valueOf(since));
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<LocalGameScore> scores = new ArrayList<>();
+                while (rs.next()) {
+                    scores.add(mapResultSetToScore(rs));
+                }
+                return scores;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error finding scores modified after timestamp", e);
+            throw new RuntimeException("Failed to find modified scores", e);
+        }
+    }
+
+    /**
+     * Find scores by sync status
+     */
+    public List<LocalGameScore> findBySyncStatus(String status) {
+        String sql = "SELECT * FROM game_score WHERE sync_status = ? ORDER BY played_at";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<LocalGameScore> scores = new ArrayList<>();
+                while (rs.next()) {
+                    scores.add(mapResultSetToScore(rs));
+                }
+                return scores;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error finding scores by sync status", e);
+            throw new RuntimeException("Failed to find scores by status", e);
+        }
+    }
+
+    /**
+     * Find scores with conflicts
+     */
+    public List<LocalGameScore> findConflictingScores() {
+        return findBySyncStatus("CONFLICT");
+    }
+
+    /**
+     * Update sync status for a score
+     */
+    public void updateSyncStatus(String scoreId, String status, int serverVersion) {
+        String sql = "UPDATE game_score SET sync_status = ?, server_version = ?, " +
+                     "synced = ?, synced_at = ? WHERE score_id = ?";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            pstmt.setInt(2, serverVersion);
+            pstmt.setBoolean(3, "SYNCED".equals(status));
+            pstmt.setTimestamp(4, "SYNCED".equals(status) ? Timestamp.valueOf(LocalDateTime.now()) : null);
+            pstmt.setString(5, scoreId);
+
+            pstmt.executeUpdate();
+            logger.debug("Score {} sync status updated to {}", scoreId, status);
+
+        } catch (SQLException e) {
+            logger.error("Error updating sync status", e);
+            throw new RuntimeException("Failed to update sync status", e);
+        }
+    }
+
+    /**
+     * Mark score as having a conflict
+     */
+    public void markAsConflict(String scoreId, int serverVersion) {
+        updateSyncStatus(scoreId, "CONFLICT", serverVersion);
+    }
+
+    /**
+     * Mark score as synced with server version
+     */
+    public void markAsSyncedWithVersion(String scoreId, int serverVersion) {
+        updateSyncStatus(scoreId, "SYNCED", serverVersion);
+    }
+
+    /**
+     * Count scores by sync status
+     */
+    public int countBySyncStatus(String status) {
+        String sql = "SELECT COUNT(*) FROM game_score WHERE sync_status = ?";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Error counting scores by status", e);
+            throw new RuntimeException("Failed to count by status", e);
+        }
+    }
+
+    /**
+     * Count scores with conflicts
+     */
+    public int countConflicts() {
+        return countBySyncStatus("CONFLICT");
+    }
+
+    /**
+     * Update content hash for a score
+     */
+    public void updateContentHash(String scoreId, String hash) {
+        String sql = "UPDATE game_score SET content_hash = ? WHERE score_id = ?";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, hash);
+            pstmt.setString(2, scoreId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("Error updating content hash", e);
+            throw new RuntimeException("Failed to update content hash", e);
         }
     }
 
@@ -223,6 +410,12 @@ public class GameScoreRepository {
         score.setSyncAttempts(rs.getInt("sync_attempts"));
         score.setLastSyncError(rs.getString("last_sync_error"));
         score.setMetadata(rs.getString("metadata"));
+        // Delta sync fields
+        score.setLocalVersion(rs.getInt("local_version"));
+        score.setServerVersion(rs.getInt("server_version"));
+        score.setModifiedAt(toLocalDateTime(rs.getTimestamp("modified_at")));
+        score.setContentHash(rs.getString("content_hash"));
+        score.setSyncStatus(rs.getString("sync_status"));
         return score;
     }
 

@@ -85,9 +85,9 @@ public class GameManager {
             }
         }
 
-        // Create ClassLoader and load game
+        // Create ClassLoader and load game by gameId
         GameClassLoader classLoader = new GameClassLoader(jarPath);
-        EducationalGame gameInstance = classLoader.loadGameInstance();
+        EducationalGame gameInstance = classLoader.loadGameInstance(gameId);
 
         logger.info("Game loaded successfully: {}", gameInstance.getName());
         return gameInstance;
@@ -116,7 +116,7 @@ public class GameManager {
         // Load game temporarily to extract metadata
         GameClassLoader classLoader = new GameClassLoader(destPath);
         try {
-            EducationalGame game = classLoader.loadGameInstance();
+            EducationalGame game = classLoader.loadGameInstance(gameId);
 
             // Save to database
             InstalledGame installedGame = new InstalledGame();
@@ -233,7 +233,7 @@ public class GameManager {
             if (callback != null) callback.onProgress("Extracting metadata...", 90);
             GameClassLoader classLoader = new GameClassLoader(destPath);
             try {
-                EducationalGame game = classLoader.loadGameInstance();
+                EducationalGame game = classLoader.loadGameInstance(gameId);
 
                 // Save to database
                 InstalledGame installedGame = new InstalledGame();

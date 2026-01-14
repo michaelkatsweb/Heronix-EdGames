@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.heronix.edu.client.ui.controller.SyncConflictsController"
+            style="-fx-background-color: #f5f5f5;"
+            prefWidth="700" prefHeight="500">
+
+    <!-- Header -->
+    <top>
+        <VBox>
+            <HBox style="-fx-background-color: #FF9800; -fx-padding: 15;" alignment="CENTER_LEFT">
+                <Label text="Sync Conflicts"
+                       style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="conflictCountLabel"
+                       style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            </HBox>
+            <HBox style="-fx-background-color: #FFF3E0; -fx-padding: 10;" alignment="CENTER_LEFT">
+                <Label text="The following items have conflicts between local and server data. Please choose how to resolve each conflict."
+                       style="-fx-text-fill: #E65100; -fx-font-size: 12px;"
+                       wrapText="true"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Content - Conflict List -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <ListView fx:id="conflictListView" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-border-color: #ddd; -fx-border-radius: 4px;">
+            </ListView>
+        </VBox>
+    </center>
+
+    <!-- Conflict Detail Panel (shown when item selected) -->
+    <right>
+        <VBox fx:id="detailPanel" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-min-width: 250;"
+              visible="false" managed="false">
+
+            <Label text="Conflict Details" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+            <Separator/>
+
+            <VBox spacing="5">
+                <Label text="Entity Type:" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
+                <Label fx:id="entityTypeLabel" style="-fx-text-fill: #666;"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Entity ID:" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
+                <Label fx:id="entityIdLabel" style="-fx-text-fill: #666; -fx-font-size: 10px;" wrapText="true"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Conflict Type:" style="-fx-font-weight: bold; -fx-font-size: 11px;"/>
+                <Label fx:id="conflictTypeLabel" style="-fx-text-fill: #E65100;"/>
+            </VBox>
+
+            <Separator/>
+
+            <VBox spacing="5">
+                <Label text="Local Value:" style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #1976D2;"/>
+                <TextArea fx:id="localValueArea" editable="false" prefRowCount="3"
+                          style="-fx-font-size: 11px;"/>
+                <Label fx:id="localTimestampLabel" style="-fx-font-size: 10px; -fx-text-fill: #999;"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Server Value:" style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #4CAF50;"/>
+                <TextArea fx:id="serverValueArea" editable="false" prefRowCount="3"
+                          style="-fx-font-size: 11px;"/>
+                <Label fx:id="serverTimestampLabel" style="-fx-font-size: 10px; -fx-text-fill: #999;"/>
+            </VBox>
+
+            <Separator/>
+
+            <Label text="Resolution:" style="-fx-font-weight: bold;"/>
+            <VBox spacing="8">
+                <Button fx:id="keepLocalButton" text="Keep Local Version" maxWidth="Infinity"
+                        onAction="#handleKeepLocal"
+                        style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-padding: 8px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+
+                <Button fx:id="keepServerButton" text="Keep Server Version" maxWidth="Infinity"
+                        onAction="#handleKeepServer"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+            </VBox>
+        </VBox>
+    </right>
+
+    <!-- Bottom Bar -->
+    <bottom>
+        <VBox>
+            <Separator/>
+            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 15;">
+                <Button fx:id="autoResolveAllButton"
+                        text="Auto-Resolve All (Server Wins)"
+                        onAction="#handleAutoResolveAll"
+                        style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+
+                <Button fx:id="refreshButton"
+                        text="Refresh"
+                        onAction="#handleRefresh"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label fx:id="statusLabel"
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+
+                <Button fx:id="closeButton"
+                        text="Close"
+                        onAction="#handleClose"
+                        style="-fx-background-color: #757575; -fx-text-fill: white; -fx-padding: 8px 20px; -fx-background-radius: 4px; -fx-cursor: hand;"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

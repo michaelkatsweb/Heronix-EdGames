@@ -27,4 +27,9 @@ public interface GameRepository extends JpaRepository<GameEntity, String> {
      * Find games by subject
      */
     List<GameEntity> findBySubjectAndActiveTrue(String subject);
+
+    /**
+     * Find game by ID (regardless of active status)
+     */
+    Optional<GameEntity> findByGameId(String gameId);
 }

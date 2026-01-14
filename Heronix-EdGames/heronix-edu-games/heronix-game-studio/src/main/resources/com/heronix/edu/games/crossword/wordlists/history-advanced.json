@@ -1,0 +1,28 @@
+{
+  "subject": "HISTORY",
+  "gradeRange": "6-8",
+  "name": "Advanced History",
+  "description": "World history and civics for grades 6-8",
+  "entries": [
+    {"word": "CIVILIZATION", "clue": "Advanced human society", "category": "concepts", "difficulty": 3},
+    {"word": "EMPIRE", "clue": "Group of nations under one ruler", "category": "government", "difficulty": 3},
+    {"word": "DYNASTY", "clue": "Ruling family across generations", "category": "government", "difficulty": 3},
+    {"word": "FEUDALISM", "clue": "Medieval system of lords and peasants", "category": "systems", "difficulty": 3},
+    {"word": "RENAISSANCE", "clue": "Rebirth of art and learning in Europe", "category": "periods", "difficulty": 4},
+    {"word": "REFORMATION", "clue": "Religious movement that split Christianity", "category": "events", "difficulty": 3},
+    {"word": "ENLIGHTENMENT", "clue": "Age of reason and new ideas", "category": "periods", "difficulty": 4},
+    {"word": "INDUSTRIAL", "clue": "Era of factories and machines", "category": "periods", "difficulty": 3},
+    {"word": "DICTATOR", "clue": "Ruler with total power", "category": "people", "difficulty": 3},
+    {"word": "FASCISM", "clue": "Extreme nationalist government", "category": "systems", "difficulty": 4},
+    {"word": "COMMUNISM", "clue": "System where state owns all property", "category": "systems", "difficulty": 3},
+    {"word": "CAPITALISM", "clue": "System of private ownership and free markets", "category": "systems", "difficulty": 3},
+    {"word": "HOLOCAUST", "clue": "Nazi genocide during World War Two", "category": "events", "difficulty": 3},
+    {"word": "ARMISTICE", "clue": "Agreement to stop fighting", "category": "events", "difficulty": 3},
+    {"word": "ALLIANCE", "clue": "Agreement between countries to help each other", "category": "politics", "difficulty": 3},
+    {"word": "IMPERIALISM", "clue": "Policy of extending power over other nations", "category": "systems", "difficulty": 4},
+    {"word": "COLONIALISM", "clue": "Control over weaker nations or peoples", "category": "systems", "difficulty": 3},
+    {"word": "NATIONALISM", "clue": "Strong pride in one's country", "category": "concepts", "difficulty": 3},
+    {"word": "GENOCIDE", "clue": "Deliberate killing of a group", "category": "events", "difficulty": 3},
+    {"word": "ARCHAEOLOGY", "clue": "Study of ancient civilizations", "category": "fields", "difficulty": 4}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subject": "SOCIAL_STUDIES",
+  "gradeRange": "6-8",
+  "name": "Advanced Social Studies",
+  "description": "World cultures and economics for grades 6-8",
+  "entries": [
+    {"word": "DEMOCRACY", "clue": "Government by the people", "category": "government", "difficulty": 3},
+    {"word": "MONARCHY", "clue": "Government ruled by king or queen", "category": "government", "difficulty": 3},
+    {"word": "CONSTITUTION", "clue": "Document of basic laws", "category": "government", "difficulty": 3},
+    {"word": "AMENDMENT", "clue": "Change to a constitution", "category": "government", "difficulty": 3},
+    {"word": "LEGISLATURE", "clue": "Branch that makes laws", "category": "government", "difficulty": 3},
+    {"word": "JUDICIAL", "clue": "Branch that interprets laws", "category": "government", "difficulty": 3},
+    {"word": "EXECUTIVE", "clue": "Branch that enforces laws", "category": "government", "difficulty": 3},
+    {"word": "ECONOMY", "clue": "System of money and trade", "category": "economics", "difficulty": 3},
+    {"word": "INFLATION", "clue": "Rising prices over time", "category": "economics", "difficulty": 3},
+    {"word": "TARIFF", "clue": "Tax on imported goods", "category": "economics", "difficulty": 3},
+    {"word": "LATITUDE", "clue": "Distance north or south of equator", "category": "geography", "difficulty": 3},
+    {"word": "LONGITUDE", "clue": "Distance east or west of prime meridian", "category": "geography", "difficulty": 3},
+    {"word": "HEMISPHERE", "clue": "Half of Earth's surface", "category": "geography", "difficulty": 3},
+    {"word": "PENINSULA", "clue": "Land surrounded by water on three sides", "category": "geography", "difficulty": 3},
+    {"word": "ARCHIPELAGO", "clue": "Chain of islands", "category": "geography", "difficulty": 4},
+    {"word": "IMMIGRATION", "clue": "Moving to a new country", "category": "culture", "difficulty": 3},
+    {"word": "DIVERSITY", "clue": "Variety of different peoples", "category": "culture", "difficulty": 3},
+    {"word": "PROPAGANDA", "clue": "Information to influence opinion", "category": "media", "difficulty": 3},
+    {"word": "REFERENDUM", "clue": "Public vote on an issue", "category": "civics", "difficulty": 4},
+    {"word": "EMBARGO", "clue": "Ban on trade with a country", "category": "economics", "difficulty": 3}
+  ]
+}

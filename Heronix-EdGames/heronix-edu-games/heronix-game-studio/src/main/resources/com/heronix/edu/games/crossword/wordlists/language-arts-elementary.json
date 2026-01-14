@@ -1,0 +1,28 @@
+{
+  "subject": "LANGUAGE_ARTS",
+  "gradeRange": "K-2",
+  "name": "Elementary Language Arts",
+  "description": "Basic reading and writing vocabulary for K-2",
+  "entries": [
+    {"word": "BOOK", "clue": "Something you read", "category": "reading", "difficulty": 1},
+    {"word": "READ", "clue": "Look at words and understand them", "category": "reading", "difficulty": 1},
+    {"word": "WORD", "clue": "Group of letters with meaning", "category": "writing", "difficulty": 1},
+    {"word": "LETTER", "clue": "A, B, C, and so on", "category": "writing", "difficulty": 1},
+    {"word": "STORY", "clue": "Tale with beginning, middle, and end", "category": "reading", "difficulty": 1},
+    {"word": "PAGE", "clue": "One side of paper in a book", "category": "reading", "difficulty": 1},
+    {"word": "SPELL", "clue": "Put letters in correct order", "category": "writing", "difficulty": 1},
+    {"word": "NAME", "clue": "What you call someone or something", "category": "grammar", "difficulty": 1},
+    {"word": "POEM", "clue": "Writing with rhythm and rhyme", "category": "reading", "difficulty": 2},
+    {"word": "RHYME", "clue": "Words that sound alike at the end", "category": "poetry", "difficulty": 2},
+    {"word": "WRITE", "clue": "Put words on paper", "category": "writing", "difficulty": 1},
+    {"word": "NOUN", "clue": "Person, place, or thing word", "category": "grammar", "difficulty": 2},
+    {"word": "VERB", "clue": "Action word", "category": "grammar", "difficulty": 2},
+    {"word": "TITLE", "clue": "Name of a book or story", "category": "reading", "difficulty": 2},
+    {"word": "AUTHOR", "clue": "Person who writes a book", "category": "reading", "difficulty": 2},
+    {"word": "PERIOD", "clue": "Dot at end of a sentence", "category": "punctuation", "difficulty": 1},
+    {"word": "COMMA", "clue": "Pause mark in a sentence", "category": "punctuation", "difficulty": 2},
+    {"word": "CAPITAL", "clue": "Big letter at start of sentence", "category": "writing", "difficulty": 2},
+    {"word": "SOUND", "clue": "What a letter makes", "category": "phonics", "difficulty": 1},
+    {"word": "VOWEL", "clue": "A, E, I, O, or U", "category": "phonics", "difficulty": 2}
+  ]
+}

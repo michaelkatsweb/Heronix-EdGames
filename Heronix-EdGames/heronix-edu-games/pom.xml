@@ -17,7 +17,7 @@
         <module>heronix-common</module>
         <module>heronix-server</module>
         <module>heronix-client</module>
-        <module>heronix-games</module>
+        <module>heronix-game-studio</module>
     </modules>
 
     <properties>

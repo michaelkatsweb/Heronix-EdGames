@@ -1,0 +1,28 @@
+{
+  "subject": "MATHEMATICS",
+  "gradeRange": "6-8",
+  "name": "Advanced Math Terms",
+  "description": "Math vocabulary for 6th through 8th grade",
+  "entries": [
+    {"word": "EQUATION", "clue": "Math sentence with equals sign", "category": "algebra", "difficulty": 2},
+    {"word": "VARIABLE", "clue": "Letter representing unknown number", "category": "algebra", "difficulty": 2},
+    {"word": "EXPRESSION", "clue": "Math phrase without equals sign", "category": "algebra", "difficulty": 2},
+    {"word": "COEFFICIENT", "clue": "Number in front of a variable", "category": "algebra", "difficulty": 3},
+    {"word": "INTEGER", "clue": "Whole number, positive or negative", "category": "numbers", "difficulty": 2},
+    {"word": "NEGATIVE", "clue": "Less than zero", "category": "numbers", "difficulty": 2},
+    {"word": "POSITIVE", "clue": "Greater than zero", "category": "numbers", "difficulty": 2},
+    {"word": "ABSOLUTE", "clue": "Distance from zero", "category": "numbers", "difficulty": 3},
+    {"word": "RATIONAL", "clue": "Can be written as a fraction", "category": "numbers", "difficulty": 3},
+    {"word": "PERCENT", "clue": "Parts per hundred", "category": "ratios", "difficulty": 2},
+    {"word": "RATIO", "clue": "Comparison of two numbers", "category": "ratios", "difficulty": 2},
+    {"word": "PROPORTION", "clue": "Two equal ratios", "category": "ratios", "difficulty": 3},
+    {"word": "RADIUS", "clue": "Distance from center to edge of circle", "category": "geometry", "difficulty": 2},
+    {"word": "DIAMETER", "clue": "Distance across a circle through center", "category": "geometry", "difficulty": 2},
+    {"word": "CIRCUMFERENCE", "clue": "Distance around a circle", "category": "geometry", "difficulty": 3},
+    {"word": "VOLUME", "clue": "Space inside a 3D shape", "category": "geometry", "difficulty": 2},
+    {"word": "EXPONENT", "clue": "Small number showing repeated multiplication", "category": "algebra", "difficulty": 3},
+    {"word": "PROBABILITY", "clue": "Chance of something happening", "category": "statistics", "difficulty": 3},
+    {"word": "MEDIAN", "clue": "Middle number in ordered list", "category": "statistics", "difficulty": 2},
+    {"word": "COORDINATE", "clue": "Location on a grid using numbers", "category": "geometry", "difficulty": 3}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "subject": "MATHEMATICS",
+  "gradeRange": "3-5",
+  "name": "Intermediate Math Terms",
+  "description": "Math vocabulary for 3rd through 5th grade",
+  "entries": [
+    {"word": "FRACTION", "clue": "Part of a whole, like 1/2", "category": "fractions", "difficulty": 2},
+    {"word": "DECIMAL", "clue": "Number with a point, like 3.14", "category": "numbers", "difficulty": 3},
+    {"word": "MULTIPLY", "clue": "Repeated addition", "category": "operations", "difficulty": 2},
+    {"word": "DIVIDE", "clue": "Split into equal groups", "category": "operations", "difficulty": 2},
+    {"word": "PRODUCT", "clue": "Answer in multiplication", "category": "operations", "difficulty": 2},
+    {"word": "QUOTIENT", "clue": "Answer in division", "category": "operations", "difficulty": 3},
+    {"word": "REMAINDER", "clue": "What's left over after dividing", "category": "operations", "difficulty": 3},
+    {"word": "PERIMETER", "clue": "Distance around a shape", "category": "geometry", "difficulty": 3},
+    {"word": "AREA", "clue": "Space inside a shape", "category": "geometry", "difficulty": 2},
+    {"word": "TRIANGLE", "clue": "Three-sided shape", "category": "geometry", "difficulty": 2},
+    {"word": "RECTANGLE", "clue": "Four-sided shape with right angles", "category": "geometry", "difficulty": 2},
+    {"word": "ANGLE", "clue": "Corner where two lines meet", "category": "geometry", "difficulty": 2},
+    {"word": "PARALLEL", "clue": "Lines that never cross", "category": "geometry", "difficulty": 3},
+    {"word": "AVERAGE", "clue": "The middle value", "category": "statistics", "difficulty": 3},
+    {"word": "GRAPH", "clue": "Picture showing data", "category": "statistics", "difficulty": 2},
+    {"word": "CHART", "clue": "Table or diagram of information", "category": "statistics", "difficulty": 2},
+    {"word": "PATTERN", "clue": "Something that repeats", "category": "patterns", "difficulty": 2},
+    {"word": "ESTIMATE", "clue": "Make a good guess", "category": "skills", "difficulty": 3},
+    {"word": "FACTOR", "clue": "Number that divides evenly", "category": "numbers", "difficulty": 3},
+    {"word": "MULTIPLE", "clue": "Result of multiplying by whole number", "category": "numbers", "difficulty": 3}
+  ]
+}

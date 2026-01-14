@@ -1,0 +1,28 @@
+{
+  "subject": "SOCIAL_STUDIES",
+  "gradeRange": "K-2",
+  "name": "Elementary Social Studies",
+  "description": "Community and citizenship basics for grades K-2",
+  "entries": [
+    {"word": "MAP", "clue": "Picture showing places", "category": "geography", "difficulty": 1},
+    {"word": "HOME", "clue": "Where your family lives", "category": "community", "difficulty": 1},
+    {"word": "CITY", "clue": "Big place with many buildings", "category": "geography", "difficulty": 1},
+    {"word": "FARM", "clue": "Place where food is grown", "category": "places", "difficulty": 1},
+    {"word": "FLAG", "clue": "Symbol of a country", "category": "symbols", "difficulty": 1},
+    {"word": "VOTE", "clue": "Way to choose a leader", "category": "civics", "difficulty": 1},
+    {"word": "RULE", "clue": "Something we must follow", "category": "civics", "difficulty": 1},
+    {"word": "FAIR", "clue": "When everyone is treated the same", "category": "values", "difficulty": 1},
+    {"word": "HELP", "clue": "What good neighbors do", "category": "values", "difficulty": 1},
+    {"word": "SHARE", "clue": "Give part to others", "category": "values", "difficulty": 1},
+    {"word": "FAMILY", "clue": "People who care for you", "category": "community", "difficulty": 1},
+    {"word": "SCHOOL", "clue": "Place where you learn", "category": "community", "difficulty": 1},
+    {"word": "WORKER", "clue": "Person who does a job", "category": "jobs", "difficulty": 1},
+    {"word": "DOCTOR", "clue": "Helps you when sick", "category": "jobs", "difficulty": 1},
+    {"word": "POLICE", "clue": "Keeps the community safe", "category": "jobs", "difficulty": 1},
+    {"word": "LEADER", "clue": "Person in charge", "category": "civics", "difficulty": 1},
+    {"word": "PAST", "clue": "Time that already happened", "category": "time", "difficulty": 1},
+    {"word": "TODAY", "clue": "This day right now", "category": "time", "difficulty": 1},
+    {"word": "MONEY", "clue": "Used to buy things", "category": "economics", "difficulty": 1},
+    {"word": "GLOBE", "clue": "Round model of Earth", "category": "geography", "difficulty": 1}
+  ]
+}

@@ -53,6 +53,21 @@ public class SecurityConfig {
                                 "/api/device/management/**",  // Temporarily public for testing
                                 "/api/games/list",  // Public game catalog
                                 "/api/games/*/info",  // Public game info
+                                "/api/games/*/icon",  // Public game icons
+                                "/api/games/*/screenshot/*",  // Public game screenshots
+                                "/api/games/*/metadata",  // Public game metadata
+                                "/api/games/metadata/all",  // Public all metadata
+                                "/api/bundles",  // Public bundle list
+                                "/api/bundles/standard",  // Public standard bundles
+                                "/api/bundles/premium",  // Public premium bundles
+                                "/api/bundles/*",  // Public bundle details
+                                "/api/bundles/access/**",  // Public access checks
+                                "/ws/**",  // WebSocket endpoints for multiplayer games
+                                "/api/game/sessions",  // Public session creation (for Teacher Portal)
+                                "/api/game/sessions/**",  // All session endpoints public (protected by session codes)
+                                "/api/game/question-sets",  // Public question sets
+                                "/api/game/question-sets/**",  // Public question set operations
+                                "/api/monitor/**",  // WebSocket monitoring endpoints
                                 "/h2-console/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
@@ -66,6 +81,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/games/*/download").authenticated()  // Downloading requires auth
                         .requestMatchers("/api/teacher/**").authenticated()
                         .requestMatchers("/api/reports/**").authenticated()
+                        .requestMatchers("/api/analytics/**").authenticated()  // Play time analytics
+                        .requestMatchers("/api/game/sessions").authenticated()  // Creating sessions requires auth
+                        .requestMatchers("/api/game/sessions/*/start").authenticated()
+                        .requestMatchers("/api/game/sessions/*/end").authenticated()
 
                         // All other requests require authentication
                         .anyRequest().authenticated()

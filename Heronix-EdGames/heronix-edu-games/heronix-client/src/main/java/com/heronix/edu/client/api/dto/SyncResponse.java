@@ -15,6 +15,31 @@ public class SyncResponse {
     public SyncResponse() {
     }
 
+    /**
+     * Create a successful sync response.
+     */
+    public static SyncResponse success(int successCount) {
+        SyncResponse response = new SyncResponse();
+        response.setSuccess(true);
+        response.setSuccessCount(successCount);
+        response.setFailureCount(0);
+        response.setMessage("Sync completed successfully");
+        return response;
+    }
+
+    /**
+     * Create a failed sync response.
+     */
+    public static SyncResponse failure(String errorMessage) {
+        SyncResponse response = new SyncResponse();
+        response.setSuccess(false);
+        response.setSuccessCount(0);
+        response.setFailureCount(1);
+        response.setMessage(errorMessage);
+        response.setErrors(List.of(errorMessage));
+        return response;
+    }
+
     // Getters and Setters
     public boolean isSuccess() {
         return success;

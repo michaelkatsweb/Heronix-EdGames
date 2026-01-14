@@ -27,11 +27,46 @@ public class GameClassLoader extends URLClassLoader {
     }
 
     /**
-     * Load a game instance from the JAR
-     * Uses ServiceLoader to find EducationalGame implementations
+     * Load a game instance from the JAR by gameId
+     * Uses ServiceLoader to find the matching EducationalGame implementation
+     *
+     * @param gameId The unique identifier of the game to load
+     * @return The matching EducationalGame instance
      */
+    public EducationalGame loadGameInstance(String gameId) {
+        logger.debug("Loading game instance via ServiceLoader for gameId: {}", gameId);
+
+        ServiceLoader<EducationalGame> loader =
+            ServiceLoader.load(EducationalGame.class, this);
+
+        // Find the game with matching gameId
+        for (EducationalGame game : loader) {
+            logger.debug("Found game in JAR: {} (id: {})", game.getName(), game.getGameId());
+            if (game.getGameId().equals(gameId)) {
+                logger.info("Loaded game: {} (matched gameId: {})", game.getName(), gameId);
+                return game;
+            }
+        }
+
+        // If not found by exact gameId, throw error with available games
+        StringBuilder availableGames = new StringBuilder();
+        for (EducationalGame game : loader) {
+            availableGames.append(game.getGameId()).append(", ");
+        }
+
+        throw new IllegalStateException(
+            "No EducationalGame found with gameId '" + gameId + "'. " +
+            "Available games in JAR: " + availableGames);
+    }
+
+    /**
+     * Load a game instance from the JAR (loads first found - for backwards compatibility)
+     * Uses ServiceLoader to find EducationalGame implementations
+     * @deprecated Use loadGameInstance(String gameId) instead
+     */
+    @Deprecated
     public EducationalGame loadGameInstance() {
-        logger.debug("Loading game instance via ServiceLoader");
+        logger.debug("Loading first game instance via ServiceLoader (deprecated method)");
 
         ServiceLoader<EducationalGame> loader =
             ServiceLoader.load(EducationalGame.class, this);
