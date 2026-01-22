@@ -52,16 +52,16 @@ server:
     include-message: always
     include-stacktrace: on_param
 
-  # Tomcat tuning for high concurrency
+  # Tomcat tuning for high concurrency (1000+ WebSocket connections)
   tomcat:
     # Maximum number of connections (500+ students + teachers + overhead)
-    max-connections: 1000
-    # Thread pool for request processing
+    max-connections: 1500
+    # Thread pool for request processing - increased for WebSocket support
     threads:
-      max: 200
-      min-spare: 20
+      max: 500
+      min-spare: 50
     # Accept count (queue size when all threads are busy)
-    accept-count: 200
+    accept-count: 300
     # Connection timeout
     connection-timeout: 20000
     # Keep-alive settings
